@@ -8,7 +8,6 @@ plugins {
 }
 
 group = "com.qpang"
-version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {
@@ -32,4 +31,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
 	useJUnitPlatform()
+}
+
+tasks.named<Jar>("jar") {
+	enabled = false
 }

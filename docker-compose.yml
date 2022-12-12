@@ -11,3 +11,23 @@ services:
       - 3306:3306
     volumes:
       - ./init:/docker-entrypoint-initdb.d
+
+  q-pang-user-service:
+    build: ./user-service
+    ports:
+      - 8081:8080
+
+  q-pang-product-service:
+    build: ./product-service
+    ports:
+      - 8082:8080
+
+  q-pang-order-service:
+    build: ./order-service
+    ports:
+      - 8083:8080
+
+  q-pang-delivery-service:
+    build: ./delivery-service
+    ports:
+      - 8084:8080

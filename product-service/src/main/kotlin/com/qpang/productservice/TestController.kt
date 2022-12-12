@@ -9,7 +9,7 @@ class TestController {
 
     @GetMapping("/test")
     fun test(): ResponseEntity<String> {
-        return ResponseEntity.ok().body("user")
+        return ResponseEntity.ok().body("product")
     }
 
 }
