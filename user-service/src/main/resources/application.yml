@@ -6,6 +6,11 @@ spring:
     name: user-service
   cloud:
     config:
+      retry:
+        initial-interval: 1000
+        max-attempts: 6
+        max-interval: 2000
+        multiplier: 1.1
       fail-fast: true
 
   config:
