@@ -1,2 +1,12 @@
 server:
   port: 8080
+
+spring:
+  application:
+    name: user-service
+  cloud:
+    config:
+      fail-fast: true
+
+  config:
+    import: optional:configserver:http://127.0.0.1:8888
