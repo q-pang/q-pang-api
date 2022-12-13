@@ -22,6 +22,8 @@ services:
       PRODUCT_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
       ORDER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/order?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
       DELIVERY_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/delivery?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+      DB_USERNAME: root
+      DB_PASSWORD: password
     depends_on:
       - q-pang-db
 
