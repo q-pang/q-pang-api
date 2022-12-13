@@ -17,6 +17,11 @@ services:
     ports:
       - 8888:8888
     restart: on-failure
+    environment:
+      USER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+      PRODUCT_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+      ORDER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/order?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
+      DELIVERY_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/delivery?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
 
@@ -25,6 +30,9 @@ services:
     ports:
       - 8081:8080
     restart: on-failure
+    environment:
+      CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      USER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
@@ -34,6 +42,9 @@ services:
     ports:
       - 8082:8080
     restart: on-failure
+    environment:
+      CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      PRODUCT_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
@@ -43,6 +54,9 @@ services:
     ports:
       - 8083:8080
     restart: on-failure
+    environment:
+      CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      ORDER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/order?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
@@ -52,6 +66,9 @@ services:
     ports:
       - 8084:8080
     restart: on-failure
+    environment:
+      CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DELIVERY_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/delivery?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server

@@ -1,5 +1,5 @@
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: ${USER_DB_CONNECTION_URI:jdbc:mysql://localhost:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
     username: root
     password: password
