@@ -4,6 +4,11 @@ spring:
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
 
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: ${DISCOVERY_SERVER_URI:http://localhost:8761/eureka/}
+
 management:
   endpoints:
     web:

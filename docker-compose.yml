@@ -18,6 +18,7 @@ services:
       - 8888:8888
     restart: on-failure
     environment:
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       USER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
       PRODUCT_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
       ORDER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/order?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"

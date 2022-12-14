@@ -14,8 +14,3 @@ spring:
         max-interval: 2000
         multiplier: 1.1
       fail-fast: true
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: ${DISCOVERY_SERVER_URI:http://localhost:8761/eureka/}
