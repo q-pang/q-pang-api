@@ -27,6 +27,14 @@ services:
     depends_on:
       - q-pang-db
 
+  q-pang-discovery-server:
+    build: ./discovery-server
+    ports:
+      - 8761:8761
+    restart: on-failure
+    depends_on:
+      - q-pang-db
+
   q-pang-user-service:
     build: ./user-service
     ports:
@@ -34,10 +42,12 @@ services:
     restart: on-failure
     environment:
       CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       USER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
+      - q-pang-discovery-server
 
   q-pang-product-service:
     build: ./product-service
@@ -46,10 +56,12 @@ services:
     restart: on-failure
     environment:
       CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       PRODUCT_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
+      - q-pang-discovery-server
 
   q-pang-order-service:
     build: ./order-service
@@ -58,10 +70,12 @@ services:
     restart: on-failure
     environment:
       CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       ORDER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/order?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
+      - q-pang-discovery-server
 
   q-pang-delivery-service:
     build: ./delivery-service
@@ -70,7 +84,9 @@ services:
     restart: on-failure
     environment:
       CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       DELIVERY_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/delivery?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
     depends_on:
       - q-pang-db
       - q-pang-config-server
+      - q-pang-discovery-server
