@@ -3,3 +3,11 @@ spring:
     url: ${PRODUCT_DB_CONNECTION_URI:jdbc:mysql://localhost:3306/product?serverTimezone=Asia/Seoul&characterEncoding=UTF-8}
     username: ${DB_USERNAME:root}
     password: ${DB_PASSWORD:password}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info

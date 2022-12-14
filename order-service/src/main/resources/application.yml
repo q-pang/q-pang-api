@@ -19,11 +19,3 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${DISCOVERY_SERVER_URI:http://localhost:8761/eureka/}
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include:
-          - health
-          - info
