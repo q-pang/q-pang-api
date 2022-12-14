@@ -6,7 +6,7 @@ spring:
     active:
       - native
   application:
-    name: config
+    name: config-server
   cloud:
     config:
       server:
