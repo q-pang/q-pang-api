@@ -35,6 +35,19 @@ services:
     depends_on:
       - q-pang-db
 
+  q-pang-gateway-server:
+    build: ./gateway-server
+    ports:
+      - 8080:8080
+    restart: on-failure
+    environment:
+      CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
+      DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
+    depends_on:
+      - q-pang-db
+      - q-pang-config-server
+      - q-pang-discovery-server
+
   q-pang-user-service:
     build: ./user-service
     ports:
@@ -48,6 +61,7 @@ services:
       - q-pang-db
       - q-pang-config-server
       - q-pang-discovery-server
+      - q-pang-gateway-server
 
   q-pang-product-service:
     build: ./product-service
@@ -62,6 +76,7 @@ services:
       - q-pang-db
       - q-pang-config-server
       - q-pang-discovery-server
+      - q-pang-gateway-server
 
   q-pang-order-service:
     build: ./order-service
@@ -76,6 +91,7 @@ services:
       - q-pang-db
       - q-pang-config-server
       - q-pang-discovery-server
+      - q-pang-gateway-server
 
   q-pang-delivery-service:
     build: ./delivery-service
@@ -90,3 +106,4 @@ services:
       - q-pang-db
       - q-pang-config-server
       - q-pang-discovery-server
+      - q-pang-gateway-server
