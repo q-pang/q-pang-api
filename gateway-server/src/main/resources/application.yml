@@ -14,3 +14,6 @@ spring:
         max-interval: 2000
         multiplier: 1.1
       fail-fast: true
+    gateway:
+      metrics:
+        enabled: true
