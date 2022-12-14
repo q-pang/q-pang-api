@@ -12,4 +12,9 @@ class TestController {
         return ResponseEntity.ok().body("product")
     }
 
+    @GetMapping("/product/test")
+    fun product(): ResponseEntity<String> {
+        return ResponseEntity.ok().body("/product/test")
+    }
+
 }
