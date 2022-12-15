@@ -14,7 +14,7 @@ class SigninRestAdapter(
 ) {
     @PostMapping("/user/signin")
     fun signin(@RequestBody @Valid dto: SigninRequestDto): ResponseEntity<SigninResponseDto> =
-        ResponseEntity.ok().body(SigninResponseDto.from(signinUseCase.signin(dto.toCommand())))
+        ResponseEntity.ok().body(SigninResponseDto.from(signinUseCase.command(dto.toCommand())))
 
     data class SigninRequestDto(
         val username: String,

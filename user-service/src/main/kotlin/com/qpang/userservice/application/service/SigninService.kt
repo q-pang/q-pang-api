@@ -12,7 +12,7 @@ class SigninService(
     private val userPersistencePort: UserPersistencePort,
     private val passwordEncoder: BCryptPasswordEncoder,
 ) : SigninUseCase {
-    override fun signin(command: SigninUseCase.SigninCommand): SigninUseCase.SigninInfo {
+    override fun command(command: SigninUseCase.SigninCommand): SigninUseCase.SigninInfo {
         val user = userPersistencePort.findByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
         if (!user.isCorrectPassword(passwordEncoder, command.password)) throw IncorrectPasswordException(command.username)

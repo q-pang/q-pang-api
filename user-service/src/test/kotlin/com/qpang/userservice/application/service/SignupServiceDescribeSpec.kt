@@ -22,7 +22,7 @@ class SignupServiceDescribeSpec : DescribeSpec({
         context("회원가입되지 않은 username을 가진 Command가 주어지면") {
             every { mockUserPersistencePort.existsByUsername(anySignupCommand.username) } answers { false }
             it("회원가입에 성공하고 SignupInfo 응답") {
-                val signupInfo = signupService.signup(anySignupCommand)
+                val signupInfo = signupService.command(anySignupCommand)
 
                 assertSoftly {
                     signupInfo.username shouldBe anySignupCommand.username
@@ -35,7 +35,7 @@ class SignupServiceDescribeSpec : DescribeSpec({
             every { mockUserPersistencePort.existsByUsername(anySignupCommand.username) } answers { true }
             it("DuplicateUsernameException 발생") {
                 shouldThrow<DuplicateUsernameException> {
-                    signupService.signup(anySignupCommand)
+                    signupService.command(anySignupCommand)
                 }
             }
         }

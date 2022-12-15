@@ -1,7 +1,7 @@
 package com.qpang.userservice.application.port.`in`.usecase
 
 interface SigninUseCase {
-    fun signin(command: SigninCommand): SigninInfo
+    fun command(command: SigninCommand): SigninInfo
 
     data class SigninCommand(
         val username: String,

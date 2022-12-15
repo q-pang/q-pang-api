@@ -4,7 +4,7 @@ import com.qpang.userservice.domain.User
 import java.util.*
 
 interface SignupUseCase {
-    fun signup(command: SignupCommand): SignupInfo
+    fun command(command: SignupCommand): SignupInfo
 
     data class SignupCommand(
         val username: String,

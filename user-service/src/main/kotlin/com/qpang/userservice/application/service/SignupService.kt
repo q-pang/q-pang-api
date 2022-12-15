@@ -11,7 +11,7 @@ class SignupService(
     private val userPersistencePort: UserPersistencePort,
     private val passwordEncoder: BCryptPasswordEncoder
 ) : SignupUseCase {
-    override fun signup(command: SignupUseCase.SignupCommand): SignupUseCase.SignupInfo {
+    override fun command(command: SignupUseCase.SignupCommand): SignupUseCase.SignupInfo {
         if (userPersistencePort.existsByUsername(command.username)) {
             throw DuplicateUsernameException(command.username)
         }
