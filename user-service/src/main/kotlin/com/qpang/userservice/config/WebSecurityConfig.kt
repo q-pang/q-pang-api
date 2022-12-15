@@ -18,7 +18,7 @@ class WebSecurityConfig {
             .authorizeRequests { authorize ->
                 authorize
                     .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                    .antMatchers("/user/signup").permitAll()
+                    .antMatchers("/user/signup", "/user/signin").permitAll()
                     .anyRequest().authenticated()
             }
 
