@@ -1,27 +1,3 @@
-spring:
-  cloud:
-    gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/user/**
-
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/product/**
-
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/order/**
-
-        - id: delivery-service
-          uri: lb://delivery-service
-          predicates:
-            - Path=/delivery/**
-
 eureka:
   client:
     serviceUrl:
