@@ -15,7 +15,6 @@ class SignupRestAdapter(
     private val signupUseCase: SignupUseCase
 ) {
     @PostMapping("/user/signup")
-    @ResponseStatus(HttpStatus.CREATED)
     fun signup(@RequestBody @Valid dto: SignupRequestDto): ResponseEntity<SignupResponseDto> =
         ResponseEntity(SignupResponseDto.from(signupUseCase.signup(dto.toCommand())), HttpStatus.CREATED)
 
