@@ -46,3 +46,4 @@ management:
           - health
           - info
           - refresh
+          - metrics
