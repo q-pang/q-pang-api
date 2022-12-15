@@ -23,4 +23,6 @@ class User(
     @Column(name = "name", nullable = false)
     var name: String = name
         protected set
+
+    fun isCorrectPassword(password: String): Boolean = password == this.password
 }

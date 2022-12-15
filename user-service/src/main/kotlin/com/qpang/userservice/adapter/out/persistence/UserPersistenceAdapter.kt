@@ -11,4 +11,5 @@ class UserPersistenceAdapter(
 ) : UserPersistencePort {
     override fun save(user: User): User = userRepository.save(user)
     override fun existsByUsername(username: String): Boolean = userRepository.existsByUsername(username)
+    override fun findByUsername(username: String): User? = userRepository.findByUsername(username)
 }
