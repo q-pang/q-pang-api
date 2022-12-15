@@ -8,8 +8,18 @@ import javax.persistence.Table
 @Entity
 @Table(name = "users")
 class User(
+    username: String,
+    password: String,
     name: String
 ) : JpaAuditEntity() {
+    @Column(name = "username", unique = true, nullable = false)
+    var username: String = username
+        protected set
+
+    @Column(name = "password", nullable = false)
+    var password: String = password
+        protected set
+
     @Column(name = "name", nullable = false)
     var name: String = name
         protected set

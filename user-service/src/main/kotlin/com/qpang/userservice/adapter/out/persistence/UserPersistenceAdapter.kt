@@ -10,4 +10,5 @@ class UserPersistenceAdapter(
     private val userRepository: UserRepository
 ) : UserPersistencePort {
     override fun save(user: User): User = userRepository.save(user)
+    override fun existsByUsername(username: String): Boolean = userRepository.existsByUsername(username)
 }
