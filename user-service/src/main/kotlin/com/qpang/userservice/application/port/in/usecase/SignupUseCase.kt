@@ -8,7 +8,7 @@ interface SignupUseCase {
 
     data class SignupCommand(
         val username: String,
-        val password: String,
+        var password: String,
         val name: String
     ) {
         fun toEntity(): User = User(

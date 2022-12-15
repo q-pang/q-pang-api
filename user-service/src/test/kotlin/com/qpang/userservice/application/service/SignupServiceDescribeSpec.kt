@@ -9,10 +9,12 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 
 class SignupServiceDescribeSpec : DescribeSpec({
     val mockUserPersistencePort: UserPersistencePort = mockk()
-    val signupService = SignupService(mockUserPersistencePort)
+    val passwordEncoder = BCryptPasswordEncoder()
+    val signupService = SignupService(mockUserPersistencePort, passwordEncoder)
 
     describe("signup") {
         every { mockUserPersistencePort.save(any()) } answers { anySignupCommand.toEntity() }
