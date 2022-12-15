@@ -1,6 +1,7 @@
 package com.qpang.userservice.domain
 
 import com.qpang.userservice.common.entity.JpaAuditEntity
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.Table
@@ -24,5 +25,6 @@ class User(
     var name: String = name
         protected set
 
-    fun isCorrectPassword(password: String): Boolean = password == this.password
+    fun isCorrectPassword(passwordEncoder: BCryptPasswordEncoder, password: String): Boolean =
+        passwordEncoder.matches(password, this.password)
 }

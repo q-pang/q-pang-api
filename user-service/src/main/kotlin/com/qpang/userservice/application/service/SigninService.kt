@@ -15,7 +15,7 @@ class SigninService(
     override fun signin(command: SigninUseCase.SigninCommand): SigninUseCase.SigninInfo {
         val user = userPersistencePort.findByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
-        if (!user.isCorrectPassword(passwordEncoder.encode(command.password))) throw IncorrectPasswordException(command.username)
+        if (!user.isCorrectPassword(passwordEncoder, command.password)) throw IncorrectPasswordException(command.username)
 
         return SigninUseCase.SigninInfo(
             username = user.username,
