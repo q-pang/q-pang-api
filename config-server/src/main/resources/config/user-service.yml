@@ -8,3 +8,6 @@ eureka:
   client:
     serviceUrl:
       defaultZone: ${DISCOVERY_SERVER_URI:http://localhost:8761/eureka/}
+
+jwt:
+  validity-in-milliseconds: ${VALIDITY_IN_MILLISECONDS:216000000}

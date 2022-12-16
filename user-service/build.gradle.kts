@@ -32,6 +32,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("mysql:mysql-connector-java")
 	implementation("com.github.f4b6a3:ulid-creator:5.1.0")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
 
 	runtimeOnly("com.h2database:h2")
 
