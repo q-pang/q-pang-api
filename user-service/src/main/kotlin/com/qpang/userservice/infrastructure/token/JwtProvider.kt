@@ -9,9 +9,9 @@ import java.util.*
 
 @Component
 class JwtProvider(
-    @Value("\${jwt.secret")
+    @Value("\${jwt.secret}")
     secret: String,
-    @Value("\${jwt.validity-in-milliseconds")
+    @Value("\${jwt.validity-in-milliseconds}")
     validityInMilliseconds: Long
 ) {
     private var secret = secret

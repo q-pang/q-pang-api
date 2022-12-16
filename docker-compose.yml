@@ -59,7 +59,7 @@ services:
       DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
       USER_DB_CONNECTION_URI: "jdbc:mysql://q-pang-db:3306/user?serverTimezone=Asia/Seoul&characterEncoding=UTF-8"
       JWT_SECRET: "dongkyun-jwt-secret"
-      VALIDITY_IN_MILLISECONDS: 216000000
+      VALIDITY_IN_MILLISECONDS: 36000000
     depends_on:
       - q-pang-db
       - q-pang-config-server
