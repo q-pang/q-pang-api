@@ -14,7 +14,7 @@ class JwtProvider(
     @Value("\${jwt.validity-in-milliseconds}")
     validityInMilliseconds: Long
 ) {
-    private var secret = secret
+    private val secret = secret
     private val validityInMilliseconds = validityInMilliseconds
 
     fun generateToken(username: String): String {

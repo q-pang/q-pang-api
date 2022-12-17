@@ -39,6 +39,7 @@ services:
     environment:
       CONFIG_SERVER_URI: "http://q-pang-config-server:8888"
       DISCOVERY_SERVER_URI: "http://q-pang-discovery-server:8761/eureka/"
+      JWT_SECRET: "dongkyun-jwt-secret"
     depends_on:
       - q-pang-db
       - q-pang-config-server
