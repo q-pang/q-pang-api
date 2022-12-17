@@ -37,6 +37,17 @@ spring:
           uri: lb://delivery-service
           predicates:
             - Path=/delivery/**
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PATCH
+              - PUT
+              - DELETE
 
 management:
   endpoints:
