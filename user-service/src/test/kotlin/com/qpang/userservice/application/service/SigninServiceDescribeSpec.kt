@@ -21,13 +21,12 @@ class SigninServiceDescribeSpec : DescribeSpec({
 
     describe("signin") {
         context("회원가입된 username과 올바른 password가 주어지면") {
-            every { mockUserPersistencePort.findByUsername(anySigninCommand.username) } answers {
-                User(
-                    username = anySigninCommand.username,
-                    password = passwordEncoder.encode(anySigninCommand.password),
-                    name = "name"
-                )
-            }
+            val expectedUser = User(
+                username = anySigninCommand.username,
+                password = passwordEncoder.encode(anySigninCommand.password),
+                name = "name"
+            )
+            every { mockUserPersistencePort.findByUsername(anySigninCommand.username) } answers { expectedUser }
             it("로그인에 성공하고 SigninInfo 응답") {
                 val signinInfo = signinService.command(anySigninCommand)
 

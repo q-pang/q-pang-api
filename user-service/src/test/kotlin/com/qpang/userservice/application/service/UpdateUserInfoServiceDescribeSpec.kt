@@ -17,13 +17,8 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
 
     describe("updateUserInfo") {
         context("회원가입된 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findByUsername(anyUpdateUserInfoCommand.username) } answers {
-                User(
-                    username = "username",
-                    password = "password",
-                    name = "name"
-                )
-            }
+            val expectedUser = User(username = "username", password = "password", name = "name")
+            every { mockUserPersistencePort.findByUsername(anyUpdateUserInfoCommand.username) } answers { expectedUser }
             it("회원정보 변경에 성공하고 UpdateUserInfo 응답") {
                 val updateUserInfo = updateUserInfoService.command(anyUpdateUserInfoCommand)
 
@@ -33,7 +28,7 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
             }
         }
 
-        context("회원가입되지 않은 user id를 가진 Command가 주어지면") {
+        context("회원가입되지 않은 username을 가진 Command가 주어지면") {
             every { mockUserPersistencePort.findByUsername(anyUpdateUserInfoCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
