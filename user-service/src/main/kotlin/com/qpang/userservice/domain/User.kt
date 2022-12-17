@@ -3,9 +3,7 @@ package com.qpang.userservice.domain
 import com.qpang.userservice.application.port.`in`.usecase.UpdateUserInfoUseCase
 import com.qpang.userservice.common.entity.JpaAuditEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "users")
@@ -25,6 +23,9 @@ class User(
     @Column(name = "name", nullable = false)
     var name: String = name
         protected set
+
+    @OneToMany(mappedBy = "user", cascade = [CascadeType.PERSIST], orphanRemoval = true)
+    var paymentMethods: MutableList<PaymentMethod> = mutableListOf()
 
     fun isCorrectPassword(passwordEncoder: BCryptPasswordEncoder, password: String): Boolean =
         passwordEncoder.matches(password, this.password)
