@@ -4,6 +4,7 @@ import com.qpang.userservice.application.port.out.persistence.UserPersistencePor
 import com.qpang.userservice.domain.User
 import com.qpang.userservice.infrastructure.repository.UserRepository
 import org.springframework.stereotype.Component
+import java.util.*
 
 @Component
 class UserPersistenceAdapter(
@@ -11,5 +12,6 @@ class UserPersistenceAdapter(
 ) : UserPersistencePort {
     override fun save(user: User): User = userRepository.save(user)
     override fun existsByUsername(username: String): Boolean = userRepository.existsByUsername(username)
+    override fun findById(id: String): User? = userRepository.findById(id)
     override fun findByUsername(username: String): User? = userRepository.findByUsername(username)
 }
