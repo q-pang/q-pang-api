@@ -1,5 +1,6 @@
 package com.qpang.userservice.domain
 
+import com.qpang.userservice.application.port.`in`.usecase.UpdateUserInfoUseCase
 import com.qpang.userservice.common.entity.JpaAuditEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.Column
@@ -27,4 +28,8 @@ class User(
 
     fun isCorrectPassword(passwordEncoder: BCryptPasswordEncoder, password: String): Boolean =
         passwordEncoder.matches(password, this.password)
+
+    fun updateInfo(command: UpdateUserInfoUseCase.UpdateUserCommand) {
+        name = command.name
+    }
 }
