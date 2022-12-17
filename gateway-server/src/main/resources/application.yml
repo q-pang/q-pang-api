@@ -22,21 +22,30 @@ spring:
           uri: lb://user-service
           predicates:
             - Path=/user/**
+          filters:
+            - name: JwtFilter
 
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/product/**
+          filters:
+            - name: JwtFilter
 
         - id: order-service
           uri: lb://order-service
           predicates:
             - Path=/order/**
+          filters:
+            - name: JwtFilter
 
         - id: delivery-service
           uri: lb://delivery-service
           predicates:
             - Path=/delivery/**
+          filters:
+            - name: JwtFilter
+
       globalcors:
         cors-configurations:
           '[/**]':
