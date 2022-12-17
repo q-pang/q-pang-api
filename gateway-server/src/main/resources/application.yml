@@ -57,6 +57,7 @@ spring:
               - PATCH
               - PUT
               - DELETE
+              - OPTION
 
 management:
   endpoints:

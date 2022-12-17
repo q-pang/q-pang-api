@@ -13,10 +13,6 @@ class WebSecurityConfig {
             .csrf().disable()
             .formLogin().disable()
             .httpBasic().disable()
-            
-            .authorizeExchange()
-            .pathMatchers("/user/signup", "/user/signin").permitAll()
-            .anyExchange().authenticated()
 
         return http.build()
     }

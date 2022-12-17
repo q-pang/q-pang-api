@@ -24,6 +24,8 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-config")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("javax.xml.bind:jaxb-api")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
