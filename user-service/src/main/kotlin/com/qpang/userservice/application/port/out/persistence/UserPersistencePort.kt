@@ -6,4 +6,5 @@ interface UserPersistencePort {
     fun save(user: User): User
     fun existsByUsername(username: String): Boolean
     fun findByUsername(username: String): User?
+    fun delete(user: User)
 }
