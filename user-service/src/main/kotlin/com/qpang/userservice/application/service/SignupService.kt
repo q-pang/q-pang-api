@@ -5,12 +5,14 @@ import com.qpang.userservice.application.port.out.persistence.UserPersistencePor
 import com.qpang.userservice.application.service.exception.DuplicateUsernameException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SignupService(
     private val userPersistencePort: UserPersistencePort,
     private val passwordEncoder: BCryptPasswordEncoder
 ) : SignupUseCase {
+    @Transactional
     override fun command(command: SignupUseCase.SignupCommand): SignupUseCase.SignupInfo {
         if (userPersistencePort.existsByUsername(command.username)) {
             throw DuplicateUsernameException(command.username)

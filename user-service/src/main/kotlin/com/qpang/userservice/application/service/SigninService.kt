@@ -7,6 +7,7 @@ import com.qpang.userservice.application.service.exception.UsernameNotFoundExcep
 import com.qpang.userservice.infrastructure.token.JwtProvider
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class SigninService(
@@ -14,6 +15,7 @@ class SigninService(
     private val passwordEncoder: BCryptPasswordEncoder,
     private val jwtProvider: JwtProvider
 ) : SigninUseCase {
+    @Transactional(readOnly = true)
     override fun command(command: SigninUseCase.SigninCommand): SigninUseCase.SigninInfo {
         val user = userPersistencePort.findByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
