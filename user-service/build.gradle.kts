@@ -32,6 +32,7 @@ dependencies {
 	implementation("mysql:mysql-connector-java")
 	implementation("com.github.f4b6a3:ulid-creator:5.1.0")
 	implementation("io.jsonwebtoken:jjwt:0.9.1")
+	implementation("org.springdoc:springdoc-openapi-ui:1.6.13")
 
 	runtimeOnly("com.h2database:h2")
 
