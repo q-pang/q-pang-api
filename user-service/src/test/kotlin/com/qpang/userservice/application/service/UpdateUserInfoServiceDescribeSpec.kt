@@ -2,7 +2,7 @@ package com.qpang.userservice.application.service
 
 import com.qpang.userservice.application.port.`in`.usecase.UpdateUserInfoUseCase
 import com.qpang.userservice.application.port.out.persistence.UserPersistencePort
-import com.qpang.userservice.application.service.exception.UserIdNotFoundException
+import com.qpang.userservice.application.service.exception.UsernameNotFoundException
 import com.qpang.userservice.domain.User
 import io.kotest.assertions.assertSoftly
 import io.kotest.assertions.throwables.shouldThrow
@@ -16,8 +16,8 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
     val updateUserInfoService = UpdateUserInfoService(mockUserPersistencePort)
 
     describe("updateUserInfo") {
-        context("회원가입된 user id를 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findById(anyUpdateUserInfoCommand.id) } answers {
+        context("회원가입된 username을 가진 Command가 주어지면") {
+            every { mockUserPersistencePort.findByUsername(anyUpdateUserInfoCommand.username) } answers {
                 User(
                     username = "username",
                     password = "password",
@@ -34,9 +34,9 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
         }
 
         context("회원가입되지 않은 user id를 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findById(anyUpdateUserInfoCommand.id) } answers { null }
-            it("UserIdNotFoundException 발생") {
-                shouldThrow<UserIdNotFoundException> {
+            every { mockUserPersistencePort.findByUsername(anyUpdateUserInfoCommand.username) } answers { null }
+            it("UsernameNotFoundException 발생") {
+                shouldThrow<UsernameNotFoundException> {
                     updateUserInfoService.command(anyUpdateUserInfoCommand)
                 }
             }
@@ -45,7 +45,7 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
 }) {
     companion object {
         private val anyUpdateUserInfoCommand = UpdateUserInfoUseCase.UpdateUserCommand(
-            id = "018521bd-8c40-5af0-1465-ea7700d3e2b2",
+            username = "username",
             name = "updatedName"
         )
     }

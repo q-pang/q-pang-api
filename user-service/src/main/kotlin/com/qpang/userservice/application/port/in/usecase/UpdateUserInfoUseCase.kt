@@ -4,7 +4,7 @@ interface UpdateUserInfoUseCase {
     fun command(command: UpdateUserCommand): UpdateUserInfo
 
     data class UpdateUserCommand(
-        val id: String,
+        val username: String,
         val name: String
     )
 
