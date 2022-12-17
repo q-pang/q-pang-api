@@ -12,9 +12,9 @@ import javax.persistence.MappedSuperclass
 abstract class PrimaryKeyEntity {
     @Id
     @Column(name = "id")
-    private val id: UUID = UlidCreator.getMonotonicUlid().toUuid()
+    private val id: String = UlidCreator.getMonotonicUlid().toUuid().toString()
 
-    fun getId(): UUID = id
+    fun getId(): String = id
 
     override fun equals(other: Any?): Boolean {
         if (other == null) {

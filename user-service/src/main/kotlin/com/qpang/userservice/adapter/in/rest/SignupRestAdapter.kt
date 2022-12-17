@@ -30,7 +30,7 @@ class SignupRestAdapter(
     }
 
     data class SignupResponseDto(
-        val id: UUID,
+        val id: String,
         val username: String,
         val name: String
     ) {

@@ -1,7 +1,6 @@
 package com.qpang.userservice.application.port.`in`.usecase
 
 import com.qpang.userservice.domain.User
-import java.util.*
 
 interface SignupUseCase {
     fun command(command: SignupCommand): SignupInfo
@@ -19,7 +18,7 @@ interface SignupUseCase {
     }
 
     data class SignupInfo(
-        val id: UUID,
+        val id: String,
         val username: String,
         val name: String
     ) {
