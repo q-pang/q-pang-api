@@ -41,7 +41,7 @@ class User(
 
     fun deletePaymentMethod(paymentMethodId: String) {
         val deletePaymentMethodList = paymentMethods.filter { it.getId() == paymentMethodId }
-        deletePaymentMethodList.takeIf { it.isEmpty() }.let { throw PaymentMethodNotFoundException(paymentMethodId) }
+        if (deletePaymentMethodList.isEmpty()) throw PaymentMethodNotFoundException(paymentMethodId)
         paymentMethods.remove(deletePaymentMethodList[0])
     }
 }
