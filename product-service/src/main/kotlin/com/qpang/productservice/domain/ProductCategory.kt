@@ -10,7 +10,7 @@ import javax.persistence.Table
 class ProductCategory(
     name: String
 ) : JpaAuditEntity() {
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", unique = true, nullable = false)
     var name: String = name
         protected set
 }
