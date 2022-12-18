@@ -5,4 +5,6 @@ import com.qpang.productservice.domain.ProductCategory
 interface ProductPersistencePort {
     fun save(productCategory: ProductCategory): ProductCategory
     fun existsByName(name: String): Boolean
+    fun findById(id: String): ProductCategory?
+    fun delete(productCategory: ProductCategory)
 }

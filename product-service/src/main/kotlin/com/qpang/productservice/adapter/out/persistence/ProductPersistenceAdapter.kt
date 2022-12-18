@@ -13,4 +13,6 @@ class ProductPersistenceAdapter(
         productCategoryRepository.save(productCategory)
 
     override fun existsByName(name: String): Boolean = productCategoryRepository.existsByName(name)
+    override fun findById(id: String): ProductCategory? = productCategoryRepository.findProductCategoryById(id)
+    override fun delete(productCategory: ProductCategory) = productCategoryRepository.delete(productCategory)
 }
