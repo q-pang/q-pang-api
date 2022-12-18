@@ -8,6 +8,7 @@ import javax.persistence.*
 class PaymentMethod(
     type: PaymentMethodType,
     company: CardCompany,
+    number: String,
     user: User
 ) : JpaAuditEntity() {
 
@@ -19,6 +20,10 @@ class PaymentMethod(
     @Column(name = "company", nullable = false)
     @Enumerated(EnumType.STRING)
     var company: CardCompany = company
+        protected set
+
+    @Column(name = "number", nullable = false)
+    var number: String = number
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

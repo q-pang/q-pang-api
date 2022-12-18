@@ -19,6 +19,7 @@ class RegisterPaymentMethodService(
         val newPaymentMethod = PaymentMethod(
             type = command.type,
             company = command.company,
+            number = command.number,
             user = user
         )
         user.registerPaymentMethod(newPaymentMethod)
@@ -27,7 +28,8 @@ class RegisterPaymentMethodService(
             id = user.getId(),
             username = user.username,
             type = newPaymentMethod.type,
-            company = newPaymentMethod.company
+            company = newPaymentMethod.company,
+            number = newPaymentMethod.number
         )
     }
 }

@@ -22,7 +22,8 @@ class RegisterPaymentMethodAdapter(
         val command = RegisterPaymentMethodUseCase.RegisterPaymentMethodCommand(
             username = username,
             type = dto.type,
-            company = dto.company
+            company = dto.company,
+            number = dto.number
         )
         return ResponseEntity(
             RegisterPaymentMethodResponseDto.from(registerPaymentMethodUseCase.command(command)),
@@ -32,21 +33,24 @@ class RegisterPaymentMethodAdapter(
 
     data class RegisterPaymentMethodRequestDto(
         val type: PaymentMethod.PaymentMethodType,
-        val company: PaymentMethod.CardCompany
+        val company: PaymentMethod.CardCompany,
+        val number: String
     )
 
     data class RegisterPaymentMethodResponseDto(
         val id: String,
         val username: String,
         val type: PaymentMethod.PaymentMethodType,
-        val company: PaymentMethod.CardCompany
+        val company: PaymentMethod.CardCompany,
+        val number: String
     ) {
         companion object {
             fun from(info: RegisterPaymentMethodUseCase.RegisterPaymentMethodInfo) = RegisterPaymentMethodResponseDto(
                 id = info.id,
                 username = info.username,
                 type = info.type,
-                company = info.company
+                company = info.company,
+                number = info.number
             )
         }
     }

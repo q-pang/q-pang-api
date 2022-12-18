@@ -8,13 +8,15 @@ interface RegisterPaymentMethodUseCase {
     data class RegisterPaymentMethodCommand(
         val username: String,
         val type: PaymentMethod.PaymentMethodType,
-        val company: PaymentMethod.CardCompany
+        val company: PaymentMethod.CardCompany,
+        val number: String
     )
 
     data class RegisterPaymentMethodInfo(
         val id: String,
         val username: String,
         val type: PaymentMethod.PaymentMethodType,
-        val company: PaymentMethod.CardCompany
+        val company: PaymentMethod.CardCompany,
+        val number: String
     )
 }
