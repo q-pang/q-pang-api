@@ -17,32 +17,37 @@ class SignupServiceDescribeSpec : DescribeSpec({
     val signupService = SignupService(mockUserPersistencePort, passwordEncoder)
 
     describe("signup") {
-        every { mockUserPersistencePort.save(any()) } answers { anySignupCommand.toEntity() }
-
         context("회원가입되지 않은 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.existsByUsername(anySignupCommand.username) } answers { false }
+            every { mockUserPersistencePort.save(any()) } answers { notDuplicatedUsernameCommand.toEntity() }
+            every { mockUserPersistencePort.existsByUsername(notDuplicatedUsernameCommand.username) } answers { false }
             it("회원가입에 성공하고 SignupInfo 응답") {
-                val signupInfo = signupService.command(anySignupCommand)
+                val signupInfo = signupService.command(notDuplicatedUsernameCommand)
 
                 assertSoftly {
-                    signupInfo.username shouldBe anySignupCommand.username
-                    signupInfo.name shouldBe anySignupCommand.name
+                    signupInfo.username shouldBe notDuplicatedUsernameCommand.username
+                    signupInfo.name shouldBe notDuplicatedUsernameCommand.name
                 }
             }
         }
 
         context("이미 회원가입된 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.existsByUsername(anySignupCommand.username) } answers { true }
+            every { mockUserPersistencePort.existsByUsername(duplicatedUsernameCommand.username) } answers { true }
             it("DuplicateUsernameException 발생") {
                 shouldThrow<DuplicateUsernameException> {
-                    signupService.command(anySignupCommand)
+                    signupService.command(duplicatedUsernameCommand)
                 }
             }
         }
     }
 }) {
     companion object {
-        private val anySignupCommand = SignupUseCase.SignupCommand(
+        private val duplicatedUsernameCommand = SignupUseCase.SignupCommand(
+            username = "username",
+            password = "password",
+            name = "name"
+        )
+
+        private val notDuplicatedUsernameCommand = SignupUseCase.SignupCommand(
             username = "username",
             password = "password",
             name = "name"

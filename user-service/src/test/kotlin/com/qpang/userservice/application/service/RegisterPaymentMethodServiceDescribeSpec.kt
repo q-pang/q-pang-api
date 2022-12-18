@@ -19,31 +19,38 @@ class RegisterPaymentMethodServiceDescribeSpec : DescribeSpec({
     describe("registerPaymentMethod") {
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
-            every { mockUserPersistencePort.findByUsername(anyRegisterPaymentMethodCommand.username) } answers { expectedUser }
+            every { mockUserPersistencePort.findByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("결제수단 추가에 성공하고 RegisterPaymentMethodInfo 응답") {
-                val registerPaymentMethodInfo = registerPaymentMethodService.command(anyRegisterPaymentMethodCommand)
+                val registerPaymentMethodInfo = registerPaymentMethodService.command(registeredUserCommand)
 
                 assertSoftly {
-                    registerPaymentMethodInfo.username shouldBe anyRegisterPaymentMethodCommand.username
-                    registerPaymentMethodInfo.type shouldBe anyRegisterPaymentMethodCommand.type
-                    registerPaymentMethodInfo.company shouldBe anyRegisterPaymentMethodCommand.company
-                    registerPaymentMethodInfo.number shouldBe anyRegisterPaymentMethodCommand.number
+                    registerPaymentMethodInfo.username shouldBe registeredUserCommand.username
+                    registerPaymentMethodInfo.type shouldBe registeredUserCommand.type
+                    registerPaymentMethodInfo.company shouldBe registeredUserCommand.company
+                    registerPaymentMethodInfo.number shouldBe registeredUserCommand.number
                 }
             }
         }
 
         context("회원가입되지 않은 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findByUsername(anyRegisterPaymentMethodCommand.username) } answers { null }
+            every { mockUserPersistencePort.findByUsername(notRegisteredUserCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
-                    registerPaymentMethodService.command(anyRegisterPaymentMethodCommand)
+                    registerPaymentMethodService.command(notRegisteredUserCommand)
                 }
             }
         }
     }
 }) {
     companion object {
-        private val anyRegisterPaymentMethodCommand = RegisterPaymentMethodUseCase.RegisterPaymentMethodCommand(
+        private val registeredUserCommand = RegisterPaymentMethodUseCase.RegisterPaymentMethodCommand(
+            username = "username",
+            type = PaymentMethod.PaymentMethodType.CREDITCARD,
+            company = PaymentMethod.CardCompany.SAMSUNG,
+            number = "1234567890"
+        )
+
+        private val notRegisteredUserCommand = RegisterPaymentMethodUseCase.RegisterPaymentMethodCommand(
             username = "username",
             type = PaymentMethod.PaymentMethodType.CREDITCARD,
             company = PaymentMethod.CardCompany.SAMSUNG,
