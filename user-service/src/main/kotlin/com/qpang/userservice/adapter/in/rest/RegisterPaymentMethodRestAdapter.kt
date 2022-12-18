@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-class RegisterPaymentMethodAdapter(
+class RegisterPaymentMethodRestAdapter(
     private val registerPaymentMethodUseCase: RegisterPaymentMethodUseCase
 ) {
     @PostMapping("/user/payment-method")

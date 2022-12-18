@@ -10,7 +10,7 @@ import java.util.*
 import javax.validation.Valid
 
 @RestController
-class UpdateUserInfoAdapter(
+class UpdateUserInfoRestAdapter(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase
 ) {
     @PatchMapping("/user/update")

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class GetUserAdapter(
+class GetUserRestAdapter(
     private val getUserUseCase: GetUserUseCase
 ) {
     @GetMapping("/user/my")
