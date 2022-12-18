@@ -16,6 +16,8 @@ repositories {
 }
 
 extra["springCloudVersion"] = "2021.0.5"
+extra["kotestVersion"] = "5.5.4"
+extra["mockkVersion"] = "1.13.2"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -31,6 +33,9 @@ dependencies {
 	implementation("com.github.f4b6a3:ulid-creator:5.1.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:${property("kotestVersion")}")
+	testImplementation("io.kotest:kotest-assertions-core-jvm:${property("kotestVersion")}")
+	testImplementation("io.mockk:mockk:${property("mockkVersion")}")
 }
 
 dependencyManagement {
