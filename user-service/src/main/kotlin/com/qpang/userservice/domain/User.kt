@@ -37,4 +37,8 @@ class User(
     fun registerPaymentMethod(newPaymentMethod: PaymentMethod) {
         paymentMethods.add(newPaymentMethod)
     }
+
+    fun deletePaymentMethod(paymentMethodId: String) {
+        paymentMethods.removeIf { it.getId() == paymentMethodId }
+    }
 }
