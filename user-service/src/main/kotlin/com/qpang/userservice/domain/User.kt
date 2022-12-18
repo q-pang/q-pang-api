@@ -1,6 +1,7 @@
 package com.qpang.userservice.domain
 
 import com.qpang.userservice.application.port.`in`.usecase.UpdateUserInfoUseCase
+import com.qpang.userservice.application.service.exception.PaymentMethodNotFoundException
 import com.qpang.userservice.common.entity.JpaAuditEntity
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import javax.persistence.*
@@ -39,6 +40,8 @@ class User(
     }
 
     fun deletePaymentMethod(paymentMethodId: String) {
-        paymentMethods.removeIf { it.getId() == paymentMethodId }
+        val deletePaymentMethodList = paymentMethods.filter { it.getId() == paymentMethodId }
+        deletePaymentMethodList.takeIf { it.isEmpty() }.let { throw PaymentMethodNotFoundException(paymentMethodId) }
+        paymentMethods.remove(deletePaymentMethodList[0])
     }
 }
