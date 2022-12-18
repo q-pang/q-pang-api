@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController
 class DeleteUserRestAdapter(
     private val deleteUserUseCase: DeleteUserUseCase
 ) {
-    @DeleteMapping("/user/delete")
+    @DeleteMapping("/user")
     fun deleteUser(
         @RequestHeader(name = "username", required = true) username: String
     ): ResponseEntity<DeleteUserResponseDto> {

@@ -13,7 +13,7 @@ import javax.validation.Valid
 class UpdateUserInfoRestAdapter(
     private val updateUserInfoUseCase: UpdateUserInfoUseCase
 ) {
-    @PatchMapping("/user/update")
+    @PatchMapping("/user")
     fun updateUserInfo(
         @RequestBody @Valid dto: UpdateUserInfoRequestDto,
         @RequestHeader(name = "username", required = true) username: String
