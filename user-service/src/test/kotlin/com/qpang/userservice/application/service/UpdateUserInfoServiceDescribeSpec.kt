@@ -22,9 +22,7 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
             it("회원정보 변경에 성공하고 UpdateUserInfo 응답") {
                 val updateUserInfo = updateUserInfoService.command(anyUpdateUserInfoCommand)
 
-                assertSoftly {
-                    updateUserInfo.name shouldBe anyUpdateUserInfoCommand.name
-                }
+                updateUserInfo.name shouldBe anyUpdateUserInfoCommand.name
             }
         }
 

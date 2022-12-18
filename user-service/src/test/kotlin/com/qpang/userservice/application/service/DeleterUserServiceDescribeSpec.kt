@@ -23,9 +23,7 @@ class DeleterUserServiceDescribeSpec : DescribeSpec({
             it("회원탈퇴에 성공하고 DeleteUserInfo 응답") {
                 val deleteUserInfo = deleteUserService.command(anyDeleteUserCommand)
 
-                assertSoftly {
-                    deleteUserInfo.username shouldBe anyDeleteUserCommand.username
-                }
+                deleteUserInfo.username shouldBe anyDeleteUserCommand.username
             }
         }
 

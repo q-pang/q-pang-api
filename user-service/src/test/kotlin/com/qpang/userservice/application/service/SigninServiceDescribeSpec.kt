@@ -30,9 +30,7 @@ class SigninServiceDescribeSpec : DescribeSpec({
             it("로그인에 성공하고 SigninInfo 응답") {
                 val signinInfo = signinService.command(anySigninCommand)
 
-                assertSoftly {
-                    signinInfo.username shouldBe anySigninCommand.username
-                }
+                signinInfo.username shouldBe anySigninCommand.username
             }
         }
 
