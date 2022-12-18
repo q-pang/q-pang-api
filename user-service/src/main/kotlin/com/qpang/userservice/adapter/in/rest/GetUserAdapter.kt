@@ -33,7 +33,8 @@ class GetUserAdapter(
                 paymentMethods = info.paymentMethods.map {
                     PaymentMethodResponseDto(
                         type = it.type,
-                        company = it.company
+                        company = it.company,
+                        number = it.number
                     )
                 }
             )

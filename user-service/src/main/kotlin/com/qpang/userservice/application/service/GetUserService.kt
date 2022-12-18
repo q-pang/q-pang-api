@@ -23,7 +23,8 @@ class GetUserService(
             paymentMethods = user.paymentMethods.map {
                 PaymentMethodInfo(
                     type = it.type,
-                    company = it.company
+                    company = it.company,
+                    number = it.number
                 )
             }
         )

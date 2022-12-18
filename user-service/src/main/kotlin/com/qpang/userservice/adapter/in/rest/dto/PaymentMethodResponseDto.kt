@@ -4,5 +4,6 @@ import com.qpang.userservice.domain.PaymentMethod
 
 data class PaymentMethodResponseDto(
     val type: PaymentMethod.PaymentMethodType,
-    val company: PaymentMethod.CardCompany
+    val company: PaymentMethod.CardCompany,
+    val number: String
 )
