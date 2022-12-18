@@ -33,4 +33,8 @@ class User(
     fun updateInfo(command: UpdateUserInfoUseCase.UpdateUserCommand) {
         name = command.name
     }
+
+    fun registerPaymentMethod(newPaymentMethod: PaymentMethod) {
+        paymentMethods.add(newPaymentMethod)
+    }
 }
