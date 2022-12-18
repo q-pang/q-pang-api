@@ -32,6 +32,7 @@ class GetUserRestAdapter(
                 name = info.name,
                 paymentMethods = info.paymentMethods.map {
                     PaymentMethodResponseDto(
+                        id = it.id,
                         type = it.type,
                         company = it.company,
                         number = it.number

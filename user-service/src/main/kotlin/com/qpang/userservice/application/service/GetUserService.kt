@@ -22,6 +22,7 @@ class GetUserService(
             name = user.name,
             paymentMethods = user.paymentMethods.map {
                 PaymentMethodInfo(
+                    id = it.getId(),
                     type = it.type,
                     company = it.company,
                     number = it.number
