@@ -6,5 +6,6 @@ interface ProductPersistencePort {
     fun save(productCategory: ProductCategory): ProductCategory
     fun existsByName(name: String): Boolean
     fun findById(id: String): ProductCategory?
+    fun findAll(): List<ProductCategory>
     fun delete(productCategory: ProductCategory)
 }
