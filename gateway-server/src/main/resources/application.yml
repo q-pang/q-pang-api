@@ -68,3 +68,4 @@ management:
           - info
           - refresh
           - metrics
+          - gateway
