@@ -17,6 +17,8 @@ class RegisterProductService(
         savedProductCategory ?: throw ProductCategoryIdNotFoundException(command.categoryId)
         val newProduct = Product(name = command.name, stock = command.stock, category = savedProductCategory)
         val savedProduct = productPersistencePort.saveProduct(newProduct)
-        return RegisterProductUseCase.RegisterProductInfo.from(productPersistencePort.findProductById(savedProduct.getId())!!)
+        val savedFetchingProduct = productPersistencePort.findProductById(savedProduct.getId())!!
+
+        return RegisterProductUseCase.RegisterProductInfo.from(savedFetchingProduct)
     }
 }

@@ -11,7 +11,8 @@ class GetAllProductCategoryService(
 ) : GetAllProductCategoryUseCase {
     @Transactional(readOnly = true)
     override fun command(): List<GetAllProductCategoryUseCase.GetProductCategoryInfo> {
-        val productCategoryList = productCategoryPersistencePort.findAllProductCategory()
-        return productCategoryList.map { GetAllProductCategoryUseCase.GetProductCategoryInfo.from(it) }
+        val savedProductCategoryList = productCategoryPersistencePort.findAllProductCategory()
+
+        return savedProductCategoryList.map { GetAllProductCategoryUseCase.GetProductCategoryInfo.from(it) }
     }
 }

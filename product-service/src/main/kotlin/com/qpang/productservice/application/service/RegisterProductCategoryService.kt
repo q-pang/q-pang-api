@@ -15,7 +15,8 @@ class RegisterProductCategoryService(
         if (productPersistencePort.existsProductCategoryByName(command.name)) {
             throw DuplicateProductCategoryNameException(command.name)
         }
+        val savedProductCategory = productPersistencePort.saveProductCategory(command.toEntity())
 
-        return RegisterProductCategoryUseCase.RegisterProductCategoryInfo.from(productPersistencePort.saveProductCategory(command.toEntity()))
+        return RegisterProductCategoryUseCase.RegisterProductCategoryInfo.from(savedProductCategory)
     }
 }

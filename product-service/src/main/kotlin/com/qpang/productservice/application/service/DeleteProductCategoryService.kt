@@ -12,10 +12,10 @@ class DeleteProductCategoryService(
 ) : DeleteProductCategoryUseCase {
     @Transactional
     override fun command(command: DeleteProductCategoryUseCase.DeleteProductCategoryCommand): DeleteProductCategoryUseCase.DeleteProductCategoryInfo {
-        val productCategory = productPersistencePort.findProductCategoryById(command.id)
-        productCategory ?: throw ProductCategoryIdNotFoundException(command.id)
-        productPersistencePort.deleteProductCategory(productCategory)
+        val savedProductCategory = productPersistencePort.findProductCategoryById(command.id)
+        savedProductCategory ?: throw ProductCategoryIdNotFoundException(command.id)
+        productPersistencePort.deleteProductCategory(savedProductCategory)
 
-        return DeleteProductCategoryUseCase.DeleteProductCategoryInfo.from(productCategory)
+        return DeleteProductCategoryUseCase.DeleteProductCategoryInfo.from(savedProductCategory)
     }
 }

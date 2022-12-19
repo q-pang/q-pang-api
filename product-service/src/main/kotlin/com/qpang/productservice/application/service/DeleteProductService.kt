@@ -12,10 +12,10 @@ class DeleteProductService(
 ) : DeleteProductUseCase {
     @Transactional
     override fun command(command: DeleteProductUseCase.DeleteProductCommand): DeleteProductUseCase.DeleteProductInfo {
-        val product = productPersistencePort.findProductById(command.id)
-        product ?: throw ProductIdNotFoundException(command.id)
-        productPersistencePort.deleteProduct(product)
+        val savedProduct = productPersistencePort.findProductById(command.id)
+        savedProduct ?: throw ProductIdNotFoundException(command.id)
+        productPersistencePort.deleteProduct(savedProduct)
 
-        return DeleteProductUseCase.DeleteProductInfo.from(product)
+        return DeleteProductUseCase.DeleteProductInfo.from(savedProduct)
     }
 }
