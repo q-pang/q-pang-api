@@ -7,13 +7,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "deliveries")
 class Delivery(
-    userId: String,
     orderId: String
 ) : JpaAuditEntity() {
-
-    @Column(name = "user_id", nullable = false)
-    var userId: String = userId
-        protected set
 
     @Column(name = "order_id", nullable = false)
     var orderId: String = orderId
