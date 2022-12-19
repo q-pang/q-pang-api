@@ -1,6 +1,7 @@
 package com.qpang.deliveryservice.domain
 
 import com.qpang.deliveryservice.common.entity.JpaAuditEntity
+import com.qpang.deliveryservice.domain.exception.UncancellableException
 import java.time.LocalDateTime
 import javax.persistence.*
 
@@ -28,6 +29,11 @@ class Delivery(
 
     fun completeDelivery() {
         status = DeliveryStatus.COMPLETED
+    }
+
+    fun cancelDelivery() {
+        if (status != DeliveryStatus.AWAITING) throw UncancellableException(getId())
+        status = DeliveryStatus.CANCELLED
     }
 
     enum class DeliveryStatus(
