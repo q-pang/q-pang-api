@@ -6,6 +6,7 @@ plugins {
 	kotlin("jvm") version "1.6.21"
 	kotlin("plugin.spring") version "1.6.21"
 	kotlin("plugin.jpa") version "1.6.21"
+	kotlin("kapt") version "1.7.10"
 }
 
 group = "com.qpang"
@@ -18,6 +19,7 @@ repositories {
 extra["springCloudVersion"] = "2021.0.5"
 extra["kotestVersion"] = "5.5.4"
 extra["mockkVersion"] = "1.13.2"
+extra["querydslVersion"] = "5.0.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
@@ -31,6 +33,8 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("mysql:mysql-connector-java")
 	implementation("com.github.f4b6a3:ulid-creator:5.1.0")
+	implementation("com.querydsl:querydsl-jpa:${property("querydslVersion")}")
+	kapt("com.querydsl:querydsl-apt:${property("querydslVersion")}:jpa")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:${property("kotestVersion")}")
