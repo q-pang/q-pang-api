@@ -25,7 +25,7 @@ class SigninServiceDescribeSpec : DescribeSpec({
                 password = passwordEncoder.encode(registeredUserCommand.password),
                 name = "name"
             )
-            every { mockUserPersistencePort.findByUsername(registeredUserCommand.username) } answers { expectedUser }
+            every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("로그인에 성공하고 SigninInfo 응답") {
                 val signinInfo = signinService.command(registeredUserCommand)
 
@@ -34,7 +34,7 @@ class SigninServiceDescribeSpec : DescribeSpec({
         }
 
         context("회원가입되지 않은 username이 주어지면") {
-            every { mockUserPersistencePort.findByUsername(notRegisteredUserCommand.username) } answers { null }
+            every { mockUserPersistencePort.findUserByUsername(notRegisteredUserCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
                     signinService.command(notRegisteredUserCommand)

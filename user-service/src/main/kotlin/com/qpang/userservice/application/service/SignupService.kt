@@ -14,11 +14,11 @@ class SignupService(
 ) : SignupUseCase {
     @Transactional
     override fun command(command: SignupUseCase.SignupCommand): SignupUseCase.SignupInfo {
-        if (userPersistencePort.existsByUsername(command.username)) {
+        if (userPersistencePort.existsUserByUsername(command.username)) {
             throw DuplicateUsernameException(command.username)
         }
         command.password = passwordEncoder.encode(command.password)
 
-        return SignupUseCase.SignupInfo.from(userPersistencePort.save(command.toEntity()))
+        return SignupUseCase.SignupInfo.from(userPersistencePort.saveUser(command.toEntity()))
     }
 }

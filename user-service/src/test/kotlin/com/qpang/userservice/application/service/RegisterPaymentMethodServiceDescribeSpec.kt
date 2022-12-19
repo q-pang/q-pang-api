@@ -19,7 +19,7 @@ class RegisterPaymentMethodServiceDescribeSpec : DescribeSpec({
     describe("registerPaymentMethod") {
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
-            every { mockUserPersistencePort.findByUsername(registeredUserCommand.username) } answers { expectedUser }
+            every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("결제수단 추가에 성공하고 RegisterPaymentMethodInfo 응답") {
                 val registerPaymentMethodInfo = registerPaymentMethodService.command(registeredUserCommand)
 
@@ -33,7 +33,7 @@ class RegisterPaymentMethodServiceDescribeSpec : DescribeSpec({
         }
 
         context("회원가입되지 않은 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findByUsername(notRegisteredUserCommand.username) } answers { null }
+            every { mockUserPersistencePort.findUserByUsername(notRegisteredUserCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
                     registerPaymentMethodService.command(notRegisteredUserCommand)

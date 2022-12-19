@@ -13,7 +13,7 @@ class GetUserService(
 ) : GetUserUseCase {
     @Transactional(readOnly = true)
     override fun command(command: GetUserUseCase.GetUserCommand): GetUserUseCase.GetUserInfo {
-        val user = userPersistencePort.findByUsername(command.username)
+        val user = userPersistencePort.findUserByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
 
         return GetUserUseCase.GetUserInfo(

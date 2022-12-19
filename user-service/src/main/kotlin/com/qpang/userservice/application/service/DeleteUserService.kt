@@ -12,9 +12,9 @@ class DeleteUserService(
 ) : DeleteUserUseCase {
     @Transactional
     override fun command(command: DeleteUserUseCase.DeleteUserCommand): DeleteUserUseCase.DeleteUserInfo {
-        val user = userPersistencePort.findByUsername(command.username)
+        val user = userPersistencePort.findUserByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
-        userPersistencePort.delete(user)
+        userPersistencePort.deleteUser(user)
 
         return DeleteUserUseCase.DeleteUserInfo(
             username = user.username,

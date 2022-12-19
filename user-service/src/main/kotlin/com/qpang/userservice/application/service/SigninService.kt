@@ -17,7 +17,7 @@ class SigninService(
 ) : SigninUseCase {
     @Transactional(readOnly = true)
     override fun command(command: SigninUseCase.SigninCommand): SigninUseCase.SigninInfo {
-        val user = userPersistencePort.findByUsername(command.username)
+        val user = userPersistencePort.findUserByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
         if (!user.isCorrectPassword(passwordEncoder, command.password)) throw IncorrectPasswordException(command.username)
         val token = jwtProvider.generateToken(command.username)

@@ -12,7 +12,7 @@ class UpdateUserInfoService(
 ) : UpdateUserInfoUseCase {
     @Transactional
     override fun command(command: UpdateUserInfoUseCase.UpdateUserCommand): UpdateUserInfoUseCase.UpdateUserInfo {
-        val user = userPersistencePort.findByUsername(command.username)
+        val user = userPersistencePort.findUserByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
         user.updateInfo(command)
 

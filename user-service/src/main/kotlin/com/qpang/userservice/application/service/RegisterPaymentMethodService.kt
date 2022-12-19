@@ -13,7 +13,7 @@ class RegisterPaymentMethodService(
 ) : RegisterPaymentMethodUseCase {
     @Transactional
     override fun command(command: RegisterPaymentMethodUseCase.RegisterPaymentMethodCommand): RegisterPaymentMethodUseCase.RegisterPaymentMethodInfo {
-        val user = userPersistencePort.findByUsername(command.username)
+        val user = userPersistencePort.findUserByUsername(command.username)
         user ?: throw UsernameNotFoundException(command.username)
 
         val newPaymentMethod = PaymentMethod(

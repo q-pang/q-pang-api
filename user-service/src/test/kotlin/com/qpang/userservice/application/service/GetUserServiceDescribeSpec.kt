@@ -1,6 +1,5 @@
 package com.qpang.userservice.application.service
 
-import com.qpang.userservice.application.port.`in`.usecase.DeleteUserUseCase
 import com.qpang.userservice.application.port.`in`.usecase.GetUserUseCase
 import com.qpang.userservice.application.port.out.persistence.UserPersistencePort
 import com.qpang.userservice.application.service.exception.UsernameNotFoundException
@@ -18,7 +17,7 @@ class GetUserServiceDescribeSpec : DescribeSpec({
     describe("getUser") {
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
-            every { mockUserPersistencePort.findByUsername(registeredUserCommand.username) } answers { expectedUser }
+            every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("내 정보 조회에 성공하고 GetUserInfo 응답") {
                 val getUserInfo = getUserService.command(registeredUserCommand)
 
@@ -27,7 +26,7 @@ class GetUserServiceDescribeSpec : DescribeSpec({
         }
 
         context("회원가입되지 않은 username을 가진 Command가 주어지면") {
-            every { mockUserPersistencePort.findByUsername(notRegisteredUserCommand.username) } answers { null }
+            every { mockUserPersistencePort.findUserByUsername(notRegisteredUserCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
                     getUserService.command(notRegisteredUserCommand)
