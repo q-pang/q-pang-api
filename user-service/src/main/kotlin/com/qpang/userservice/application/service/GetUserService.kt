@@ -13,14 +13,14 @@ class GetUserService(
 ) : GetUserUseCase {
     @Transactional(readOnly = true)
     override fun command(command: GetUserUseCase.GetUserCommand): GetUserUseCase.GetUserInfo {
-        val user = userPersistencePort.findUserByUsername(command.username)
-        user ?: throw UsernameNotFoundException(command.username)
+        val savedUser = userPersistencePort.findUserByUsername(command.username)
+        savedUser ?: throw UsernameNotFoundException(command.username)
 
         return GetUserUseCase.GetUserInfo(
-            id = user.getId(),
-            username = user.username,
-            name = user.name,
-            paymentMethods = user.paymentMethods.map {
+            id = savedUser.getId(),
+            username = savedUser.username,
+            name = savedUser.name,
+            paymentMethods = savedUser.paymentMethods.map {
                 PaymentMethodInfo(
                     id = it.getId(),
                     type = it.type,

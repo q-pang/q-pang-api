@@ -12,13 +12,13 @@ class DeletePaymentMethodService(
 ) : DeletePaymentMethodUseCase {
     @Transactional
     override fun command(command: DeletePaymentMethodUseCase.DeletePaymentMethodCommand): DeletePaymentMethodUseCase.DeletePaymentMethodInfo {
-        val user = userPersistencePort.findUserByUsername(command.username)
-        user ?: throw UsernameNotFoundException(command.username)
-        user.deletePaymentMethod(command.paymentMethodId)
+        val savedUser = userPersistencePort.findUserByUsername(command.username)
+        savedUser ?: throw UsernameNotFoundException(command.username)
+        savedUser.deletePaymentMethod(command.paymentMethodId)
 
         return DeletePaymentMethodUseCase.DeletePaymentMethodInfo(
-            id = user.getId(),
-            username = user.username
+            id = savedUser.getId(),
+            username = savedUser.username
         )
     }
 }

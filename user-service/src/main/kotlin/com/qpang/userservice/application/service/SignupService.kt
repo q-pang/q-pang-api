@@ -18,7 +18,8 @@ class SignupService(
             throw DuplicateUsernameException(command.username)
         }
         command.password = passwordEncoder.encode(command.password)
+        val savedUser = userPersistencePort.saveUser(command.toEntity())
 
-        return SignupUseCase.SignupInfo.from(userPersistencePort.saveUser(command.toEntity()))
+        return SignupUseCase.SignupInfo.from(savedUser)
     }
 }
