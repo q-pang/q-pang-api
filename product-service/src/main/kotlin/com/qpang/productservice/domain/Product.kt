@@ -22,4 +22,8 @@ class Product(
     @JoinColumn(name = "product_category_id")
     var category: ProductCategory = category
         protected set
+
+    fun updateStock(updatedStock: Long) {
+        stock += updatedStock
+    }
 }
