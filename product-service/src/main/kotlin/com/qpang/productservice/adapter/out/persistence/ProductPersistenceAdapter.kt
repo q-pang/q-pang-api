@@ -27,4 +27,5 @@ class ProductPersistenceAdapter(
         productCategoryRepository.delete(productCategory)
 
     override fun findProductById(id: String): Product? = productRepositorySupport.findById(id)
+    override fun deleteProduct(product: Product) = productRepository.delete(product)
 }

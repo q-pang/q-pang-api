@@ -11,4 +11,5 @@ interface ProductPersistencePort {
     fun findAllProductCategory(): List<ProductCategory>
     fun deleteProductCategory(productCategory: ProductCategory)
     fun findProductById(id: String): Product?
+    fun deleteProduct(product: Product)
 }
