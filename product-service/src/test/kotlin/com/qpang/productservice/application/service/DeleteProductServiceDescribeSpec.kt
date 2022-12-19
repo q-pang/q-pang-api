@@ -16,7 +16,7 @@ class DeleteProductServiceDescribeSpec : DescribeSpec({
 
     describe("deleteProduct") {
         context("등록된 id를 가진 Command가 주어지면") {
-            val expectedProduct = Product(name = "name", stock = 1, category = ProductCategory("name"))
+            val expectedProduct = Product(name = "name", stock = 1, price = 1, category = ProductCategory("name"))
             every { mockProductPersistencePort.findProductById(registeredIdCommand.id) } answers { expectedProduct }
             every { mockProductPersistencePort.deleteProduct(expectedProduct) } answers {}
             it("상품 삭제에 성공하고 DeleteProductInfo 응답") {

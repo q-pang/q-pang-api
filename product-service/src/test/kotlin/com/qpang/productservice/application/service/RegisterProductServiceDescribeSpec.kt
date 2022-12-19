@@ -22,6 +22,7 @@ class RegisterProductServiceDescribeSpec : DescribeSpec({
             val expectedProduct = Product(
                 name = registeredCategoryIdCommand.name,
                 registeredCategoryIdCommand.stock,
+                price = registeredCategoryIdCommand.price,
                 category = expectedProductCategory
             )
             every { mockProductPersistencePort.findProductCategoryById(registeredCategoryIdCommand.categoryId) } answers { expectedProductCategory }
@@ -51,13 +52,15 @@ class RegisterProductServiceDescribeSpec : DescribeSpec({
         private val registeredCategoryIdCommand = RegisterProductUseCase.RegisterProductCommand(
             name = "name",
             stock = 10,
-            categoryId = "1234567890"
+            price = 100,
+            categoryId = "registeredCategoryId"
         )
 
         private val notRegisteredCategoryIdCommand = RegisterProductUseCase.RegisterProductCommand(
             name = "name",
             stock = 10,
-            categoryId = "1234567890"
+            price = 100,
+            categoryId = "notRegisteredCategoryId"
         )
     }
 }
