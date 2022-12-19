@@ -11,7 +11,7 @@ class GetProductListService(
 ) : GetProductListUseCase {
     @Transactional(readOnly = true)
     override fun command(command: GetProductListUseCase.GetProductListCommand): List<GetProductListUseCase.GetProductListInfo> {
-        val savedProductList = productPersistencePort.findAllProduct(command.categoryId)
+        val savedProductList = productPersistencePort.findAllProduct(command.categoryId, command.name)
 
         return GetProductListUseCase.GetProductListInfo.from(savedProductList)
     }

@@ -17,10 +17,12 @@ class GetProductListRestAdapter(
         ResponseEntity.ok().body(GetProductListResponseDto.from(getProductListUseCase.command(dto.toCommand())))
 
     data class GetProductListRequestDto(
-        val categoryId: String?
+        val categoryId: String?,
+        val name: String?
     ) {
         fun toCommand(): GetProductListUseCase.GetProductListCommand = GetProductListUseCase.GetProductListCommand(
-            categoryId = categoryId
+            categoryId = categoryId,
+            name = name
         )
     }
 

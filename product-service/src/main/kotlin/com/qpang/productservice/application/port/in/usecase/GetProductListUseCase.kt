@@ -7,7 +7,8 @@ interface GetProductListUseCase {
     fun command(command: GetProductListCommand): List<GetProductListInfo>
 
     data class GetProductListCommand(
-        val categoryId: String?
+        val categoryId: String?,
+        val name: String?
     )
 
     data class GetProductListInfo(

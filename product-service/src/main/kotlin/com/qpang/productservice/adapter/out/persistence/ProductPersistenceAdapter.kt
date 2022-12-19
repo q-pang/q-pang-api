@@ -23,7 +23,9 @@ class ProductPersistenceAdapter(
         productCategoryRepository.findProductCategoryById(id)
 
     override fun findAllProductCategory(): List<ProductCategory> = productCategoryRepository.findAll()
-    override fun findAllProduct(categoryId: String?): List<Product> = productRepositorySupport.findAll(categoryId)
+    override fun findAllProduct(categoryId: String?, name: String?): List<Product> =
+        productRepositorySupport.findAll(categoryId, name)
+
     override fun deleteProductCategory(productCategory: ProductCategory) =
         productCategoryRepository.delete(productCategory)
 

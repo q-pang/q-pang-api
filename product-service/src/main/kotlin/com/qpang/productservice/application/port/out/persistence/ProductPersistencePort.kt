@@ -9,7 +9,7 @@ interface ProductPersistencePort {
     fun existsProductCategoryByName(name: String): Boolean
     fun findProductCategoryById(id: String): ProductCategory?
     fun findAllProductCategory(): List<ProductCategory>
-    fun findAllProduct(categoryId: String?): List<Product>
+    fun findAllProduct(categoryId: String?, name: String?): List<Product>
     fun deleteProductCategory(productCategory: ProductCategory)
     fun findProductById(id: String): Product?
     fun deleteProduct(product: Product)

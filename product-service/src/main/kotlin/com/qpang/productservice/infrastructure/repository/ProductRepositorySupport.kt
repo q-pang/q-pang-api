@@ -19,9 +19,12 @@ class ProductRepositorySupport(
             .fetchJoin()
             .fetchOne()
 
-    fun findAll(categoryId: String?): List<Product> =
+    fun findAll(categoryId: String?, name: String?): List<Product> =
         queryFactory.selectFrom(QProduct.product)
-            .where(eqCategoryId(categoryId))
+            .where(
+                eqCategoryId(categoryId),
+                containsName(name)
+            )
             .leftJoin(QProduct.product.category, QProductCategory.productCategory)
             .fetchJoin()
             .fetch()
@@ -29,5 +32,10 @@ class ProductRepositorySupport(
     private fun eqCategoryId(categoryId: String?): BooleanExpression? {
         if (categoryId == null) return null
         return QProduct.product.category.id.eq(categoryId)
+    }
+
+    private fun containsName(name: String?): BooleanExpression? {
+        if (name == null) return null
+        return QProduct.product.name.contains(name)
     }
 }
