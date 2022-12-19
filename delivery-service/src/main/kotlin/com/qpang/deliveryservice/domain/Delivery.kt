@@ -26,6 +26,10 @@ class Delivery(
         status = DeliveryStatus.INPROGRESS
     }
 
+    fun completeDelivery() {
+        status = DeliveryStatus.COMPLETED
+    }
+
     enum class DeliveryStatus(
         val statusName: String
     ) {
