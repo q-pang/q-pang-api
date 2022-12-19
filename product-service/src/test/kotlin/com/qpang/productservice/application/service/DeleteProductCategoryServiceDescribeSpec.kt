@@ -27,7 +27,7 @@ class DeleteProductCategoryServiceDescribeSpec : DescribeSpec({
             every { mockProductPersistencePort.findProductCategoryById(notRegisteredIdCommand.id) } answers { null }
             it("상품 카테고리 등록에 실패하고 ProductCategoryIdNotFoundException 발생") {
                 shouldThrow<ProductCategoryIdNotFoundException> {
-                    deleteProductCategoryService.command(registeredIdCommand)
+                    deleteProductCategoryService.command(notRegisteredIdCommand)
                 }
             }
         }
