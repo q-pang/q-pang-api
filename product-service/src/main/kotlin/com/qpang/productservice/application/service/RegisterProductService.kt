@@ -5,11 +5,13 @@ import com.qpang.productservice.application.port.out.persistence.ProductPersiste
 import com.qpang.productservice.application.service.exception.ProductCategoryIdNotFoundException
 import com.qpang.productservice.domain.Product
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class RegisterProductService(
     private val productPersistencePort: ProductPersistencePort
 ) : RegisterProductUseCase {
+    @Transactional
     override fun command(command: RegisterProductUseCase.RegisterProductCommand): RegisterProductUseCase.RegisterProductInfo {
         val savedProductCategory = productPersistencePort.findProductCategoryById(command.categoryId)
         savedProductCategory ?: throw ProductCategoryIdNotFoundException(command.categoryId)
