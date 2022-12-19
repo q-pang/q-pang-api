@@ -10,10 +10,13 @@ interface GetAllProductCategoryUseCase {
         val name: String
     ) {
         companion object {
-            fun from(productCategory: ProductCategory) = GetProductCategoryInfo(
-                id = productCategory.getId(),
-                name = productCategory.name
-            )
+            fun from(productCategoryList: List<ProductCategory>): List<GetProductCategoryInfo> =
+                productCategoryList.map {
+                    GetProductCategoryInfo(
+                        id = it.getId(),
+                        name = it.name
+                    )
+                }
         }
     }
 }

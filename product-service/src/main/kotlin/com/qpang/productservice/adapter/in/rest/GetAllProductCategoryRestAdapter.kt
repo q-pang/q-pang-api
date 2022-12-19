@@ -11,17 +11,17 @@ class GetAllProductCategoryRestAdapter(
 ) {
     @GetMapping("/product/category/all")
     fun getAllProductCategory(): ResponseEntity<List<GetProductCategoryResponseDto>> =
-        ResponseEntity.ok().body(getAllProductCategoryUseCase.command().map { GetProductCategoryResponseDto.from(it) })
+        ResponseEntity.ok().body(GetProductCategoryResponseDto.from(getAllProductCategoryUseCase.command()))
 
     data class GetProductCategoryResponseDto(
         val id: String,
         val name: String
     ) {
         companion object {
-            fun from(info: GetAllProductCategoryUseCase.GetProductCategoryInfo) = GetProductCategoryResponseDto(
-                id = info.id,
-                name = info.name
-            )
+            fun from(infoList: List<GetAllProductCategoryUseCase.GetProductCategoryInfo>): List<GetProductCategoryResponseDto> =
+                infoList.map {
+                    GetProductCategoryResponseDto(id = it.id, name = it.name)
+                }
         }
     }
 }
