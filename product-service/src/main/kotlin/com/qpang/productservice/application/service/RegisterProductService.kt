@@ -15,7 +15,8 @@ class RegisterProductService(
     override fun command(command: RegisterProductUseCase.RegisterProductCommand): RegisterProductUseCase.RegisterProductInfo {
         val savedProductCategory = productPersistencePort.findProductCategoryById(command.categoryId)
         savedProductCategory ?: throw ProductCategoryIdNotFoundException(command.categoryId)
-        val newProduct = Product(name = command.name, stock = command.stock, category = savedProductCategory)
+        val newProduct =
+            Product(name = command.name, stock = command.stock, price = command.price, category = savedProductCategory)
         val savedProduct = productPersistencePort.saveProduct(newProduct)
         val savedFetchingProduct = productPersistencePort.findProductById(savedProduct.getId())!!
 

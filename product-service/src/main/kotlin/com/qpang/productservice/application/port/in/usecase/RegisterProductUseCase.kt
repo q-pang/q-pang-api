@@ -9,6 +9,7 @@ interface RegisterProductUseCase {
     data class RegisterProductCommand(
         val name: String,
         val stock: Long,
+        val price: Long,
         val categoryId: String
     )
 
@@ -16,6 +17,7 @@ interface RegisterProductUseCase {
         val id: String,
         val name: String,
         val stock: Long,
+        val price: Long,
         val category: ProductCategoryInfo
     ) {
         companion object {
@@ -23,6 +25,7 @@ interface RegisterProductUseCase {
                 id = product.getId(),
                 name = product.name,
                 stock = product.stock,
+                price = product.price,
                 category = ProductCategoryInfo.from(product.category)
             )
         }

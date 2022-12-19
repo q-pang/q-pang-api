@@ -15,6 +15,7 @@ interface UpdateStockUseCase {
         val id: String,
         val name: String,
         val stock: Long,
+        val price: Long,
         val category: ProductCategoryInfo
     ) {
         companion object {
@@ -22,6 +23,7 @@ interface UpdateStockUseCase {
                 id = product.getId(),
                 name = product.name,
                 stock = product.stock,
+                price = product.stock,
                 category = ProductCategoryInfo.from(product.category)
             )
         }

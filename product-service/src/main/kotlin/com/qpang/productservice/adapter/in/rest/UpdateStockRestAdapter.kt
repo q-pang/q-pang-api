@@ -30,6 +30,7 @@ class UpdateStockRestAdapter(
         val id: String,
         val name: String,
         val stock: Long,
+        val price: Long,
         val category: ProductCategoryResponseDto
     ) {
         companion object {
@@ -37,6 +38,7 @@ class UpdateStockRestAdapter(
                 id = info.id,
                 name = info.name,
                 stock = info.stock,
+                price = info.price,
                 category = ProductCategoryResponseDto.from(info.category)
             )
         }

@@ -8,6 +8,7 @@ import javax.persistence.*
 class Product(
     name: String,
     stock: Long,
+    price: Long,
     category: ProductCategory
 ) : JpaAuditEntity() {
     @Column(name = "name", nullable = false)
@@ -16,6 +17,10 @@ class Product(
 
     @Column(name = "stock", nullable = false)
     var stock: Long = stock
+        protected set
+
+    @Column(name = "price", nullable = false)
+    var price: Long = price
         protected set
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

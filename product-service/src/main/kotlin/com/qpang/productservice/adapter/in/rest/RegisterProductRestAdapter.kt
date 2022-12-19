@@ -23,11 +23,13 @@ class RegisterProductRestAdapter(
     data class RegisterProductRequestDto(
         val name: String,
         val stock: Long,
+        val price: Long,
         val categoryId: String
     ) {
         fun toEntity(): RegisterProductUseCase.RegisterProductCommand = RegisterProductUseCase.RegisterProductCommand(
             name = name,
             stock = stock,
+            price = price,
             categoryId = categoryId
         )
     }
@@ -36,6 +38,7 @@ class RegisterProductRestAdapter(
         val id: String,
         val name: String,
         val stock: Long,
+        val price: Long,
         val category: ProductCategoryResponseDto
     ) {
         companion object {
@@ -43,6 +46,7 @@ class RegisterProductRestAdapter(
                 id = info.id,
                 name = info.name,
                 stock = info.stock,
+                price = info.price,
                 category = ProductCategoryResponseDto.from(info.category)
             )
         }
