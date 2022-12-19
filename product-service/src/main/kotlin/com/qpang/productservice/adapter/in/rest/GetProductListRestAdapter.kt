@@ -32,8 +32,8 @@ class GetProductListRestAdapter(
         val category: ProductCategoryResponseDto
     ) {
         companion object {
-            fun from(getProductListInfoList: List<GetProductListUseCase.GetProductListInfo>): List<GetProductListResponseDto> =
-                getProductListInfoList.map {
+            fun from(infoList: List<GetProductListUseCase.GetProductListInfo>): List<GetProductListResponseDto> =
+                infoList.map {
                     GetProductListResponseDto(
                         id = it.id,
                         name = it.name,
