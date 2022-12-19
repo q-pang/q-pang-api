@@ -8,7 +8,7 @@ import javax.persistence.*
 class Product(
     name: String,
     stock: Long,
-    productCategory: ProductCategory
+    category: ProductCategory
 ) : JpaAuditEntity() {
     @Column(name = "name", nullable = false)
     var name: String = name
@@ -20,6 +20,6 @@ class Product(
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "product_category_id")
-    var category: ProductCategory = productCategory
+    var category: ProductCategory = category
         protected set
 }

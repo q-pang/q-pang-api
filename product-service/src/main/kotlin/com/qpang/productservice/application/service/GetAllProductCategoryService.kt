@@ -9,7 +9,7 @@ class GetAllProductCategoryService(
     private val productCategoryPersistencePort: ProductPersistencePort
 ) : GetAllProductCategoryUseCase {
     override fun command(): List<GetAllProductCategoryUseCase.GetProductCategoryInfo> {
-        val productCategoryList = productCategoryPersistencePort.findAll()
+        val productCategoryList = productCategoryPersistencePort.findAllProductCategory()
         return productCategoryList.map { GetAllProductCategoryUseCase.GetProductCategoryInfo.from(it) }
     }
 }

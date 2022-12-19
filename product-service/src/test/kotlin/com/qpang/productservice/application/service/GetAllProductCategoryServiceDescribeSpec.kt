@@ -14,7 +14,7 @@ class GetAllProductCategoryServiceDescribeSpec : DescribeSpec({
 
     describe("getAllProductCategory") {
         val expectedProductCategoryList = listOf(ProductCategory(name = "name1"), ProductCategory(name = "name2"))
-        every { mockProductPersistencePort.findAll() } answers { expectedProductCategoryList }
+        every { mockProductPersistencePort.findAllProductCategory() } answers { expectedProductCategoryList }
         it("상품 카테고리 전체 조회에 성공하고 GetProductCategoryInfoList 응답") {
             val infoList = getAllProductCategoryService.command()
             assertSoftly {

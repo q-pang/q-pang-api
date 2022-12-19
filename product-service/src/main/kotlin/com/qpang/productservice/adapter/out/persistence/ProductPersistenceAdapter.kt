@@ -7,13 +7,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class ProductPersistenceAdapter(
-    private val productCategoryRepository: ProductCategoryRepository
+    private val productCategoryRepository: ProductCategoryRepository,
 ) : ProductPersistencePort {
-    override fun save(productCategory: ProductCategory): ProductCategory =
+    override fun saveProductCategory(productCategory: ProductCategory): ProductCategory =
         productCategoryRepository.save(productCategory)
 
-    override fun existsByName(name: String): Boolean = productCategoryRepository.existsByName(name)
-    override fun findById(id: String): ProductCategory? = productCategoryRepository.findProductCategoryById(id)
-    override fun findAll(): List<ProductCategory> = productCategoryRepository.findAll()
-    override fun delete(productCategory: ProductCategory) = productCategoryRepository.delete(productCategory)
+    override fun existsProductCategoryByName(name: String): Boolean = productCategoryRepository.existsByName(name)
+    override fun findProductCategoryById(id: String): ProductCategory? = productCategoryRepository.findProductCategoryById(id)
+    override fun findAllProductCategory(): List<ProductCategory> = productCategoryRepository.findAll()
+    override fun deleteProductCategory(productCategory: ProductCategory) = productCategoryRepository.delete(productCategory)
 }

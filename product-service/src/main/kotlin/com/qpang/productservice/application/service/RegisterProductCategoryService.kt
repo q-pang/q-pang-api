@@ -10,10 +10,10 @@ class RegisterProductCategoryService(
     private val productPersistencePort: ProductPersistencePort
 ) : RegisterProductCategoryUseCase {
     override fun command(command: RegisterProductCategoryUseCase.RegisterProductCategoryCommand): RegisterProductCategoryUseCase.RegisterProductCategoryInfo {
-        if (productPersistencePort.existsByName(command.name)) {
+        if (productPersistencePort.existsProductCategoryByName(command.name)) {
             throw DuplicateProductCategoryNameException(command.name)
         }
 
-        return RegisterProductCategoryUseCase.RegisterProductCategoryInfo.from(productPersistencePort.save(command.toEntity()))
+        return RegisterProductCategoryUseCase.RegisterProductCategoryInfo.from(productPersistencePort.saveProductCategory(command.toEntity()))
     }
 }

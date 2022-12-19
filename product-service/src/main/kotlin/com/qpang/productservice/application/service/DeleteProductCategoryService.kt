@@ -10,9 +10,9 @@ class DeleteProductCategoryService(
     private val productPersistencePort: ProductPersistencePort
 ) : DeleteProductCategoryUseCase {
     override fun command(command: DeleteProductCategoryUseCase.DeleteProductCategoryCommand): DeleteProductCategoryUseCase.DeleteProductCategoryInfo {
-        val productCategory = productPersistencePort.findById(command.id)
+        val productCategory = productPersistencePort.findProductCategoryById(command.id)
         productCategory ?: throw ProductCategoryIdNotFoundException(command.id)
-        productPersistencePort.delete(productCategory)
+        productPersistencePort.deleteProductCategory(productCategory)
 
         return DeleteProductCategoryUseCase.DeleteProductCategoryInfo.from(productCategory)
     }

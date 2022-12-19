@@ -15,8 +15,8 @@ class RegisterProductCategoryServiceDescribeSpec : DescribeSpec({
 
     describe("registerProductCategory") {
         context("등록되지 않은 name을 가진 Command가 주어지면") {
-            every { mockProductPersistencePort.existsByName(notDuplicatedNameCommand.name) } answers { false }
-            every { mockProductPersistencePort.save(any()) } answers { notDuplicatedNameCommand.toEntity() }
+            every { mockProductPersistencePort.existsProductCategoryByName(notDuplicatedNameCommand.name) } answers { false }
+            every { mockProductPersistencePort.saveProductCategory(any()) } answers { notDuplicatedNameCommand.toEntity() }
             it("상품 카테고리 등록에 성공하고 RegisterProductCategoryInfo 응답") {
                 val resultInfo = registerProductCategoryService.command(notDuplicatedNameCommand)
 
@@ -25,7 +25,7 @@ class RegisterProductCategoryServiceDescribeSpec : DescribeSpec({
         }
 
         context("이미 등록된 name을 가진 Command가 주어지면") {
-            every { mockProductPersistencePort.existsByName(duplicatedNameCommand.name) } answers { true }
+            every { mockProductPersistencePort.existsProductCategoryByName(duplicatedNameCommand.name) } answers { true }
             it("상품 카테고리 등록에 실패하고 DuplicateProductCategoryNameException 발생") {
                 shouldThrow<DuplicateProductCategoryNameException> {
                     registerProductCategoryService.command(duplicatedNameCommand)

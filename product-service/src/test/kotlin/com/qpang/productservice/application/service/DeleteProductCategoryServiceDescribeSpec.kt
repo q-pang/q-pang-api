@@ -16,15 +16,15 @@ class DeleteProductCategoryServiceDescribeSpec : DescribeSpec({
     describe("deleteProductCategory") {
         context("등록된 id를 가진 Command가 주어지면") {
             val expectedProductCategory = ProductCategory(name = "name")
-            every { mockProductPersistencePort.findById(registeredIdCommand.id) } answers { expectedProductCategory }
-            every { mockProductPersistencePort.delete(expectedProductCategory) } answers {}
+            every { mockProductPersistencePort.findProductCategoryById(registeredIdCommand.id) } answers { expectedProductCategory }
+            every { mockProductPersistencePort.deleteProductCategory(expectedProductCategory) } answers {}
             it("상품 카테고리 삭제에 성공하고 DeleteProductCategoryInfo 응답") {
                 deleteProductCategoryService.command(registeredIdCommand)
             }
         }
 
         context("등록되지 않은 id를 가진 Command가 주어지면") {
-            every { mockProductPersistencePort.findById(notRegisteredIdCommand.id) } answers { null }
+            every { mockProductPersistencePort.findProductCategoryById(notRegisteredIdCommand.id) } answers { null }
             it("상품 카테고리 등록에 실패하고 ProductCategoryIdNotFoundException 발생") {
                 shouldThrow<ProductCategoryIdNotFoundException> {
                     deleteProductCategoryService.command(registeredIdCommand)
