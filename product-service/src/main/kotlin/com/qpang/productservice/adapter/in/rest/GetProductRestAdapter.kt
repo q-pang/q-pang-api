@@ -16,13 +16,6 @@ class GetProductRestAdapter(
         ResponseEntity.ok()
             .body(GetProductResponseDto.from(getProductUseCase.command(GetProductUseCase.GetProductCommand(id))))
 
-    data class GetProductRequestDto(
-        val id: String,
-    ) {
-        fun toCommand(): GetProductUseCase.GetProductCommand = GetProductUseCase.GetProductCommand(
-            id = id,
-        )
-    }
 
     data class GetProductResponseDto(
         val id: String,
