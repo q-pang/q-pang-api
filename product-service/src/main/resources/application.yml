@@ -22,6 +22,11 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+
 
 management:
   endpoints:
