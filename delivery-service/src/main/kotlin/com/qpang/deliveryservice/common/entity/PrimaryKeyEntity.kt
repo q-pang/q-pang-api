@@ -1,4 +1,4 @@
-package com.qpang.productservice.common.entity
+package com.qpang.deliveryservice.common.entity
 
 import com.github.f4b6a3.ulid.UlidCreator
 import org.hibernate.proxy.HibernateProxy

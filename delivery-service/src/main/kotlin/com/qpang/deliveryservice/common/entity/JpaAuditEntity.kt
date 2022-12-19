@@ -1,6 +1,5 @@
 package com.qpang.deliveryservice.common.entity
 
-import com.qpang.productservice.common.entity.PrimaryKeyEntity
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
