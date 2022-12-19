@@ -9,7 +9,6 @@ import javax.persistence.*
 class Delivery(
     orderId: String
 ) : JpaAuditEntity() {
-
     @Column(name = "order_id", nullable = false)
     var orderId: String = orderId
         protected set
@@ -22,6 +21,10 @@ class Delivery(
     @Enumerated(EnumType.STRING)
     var status: DeliveryStatus = DeliveryStatus.AWAITING
         protected set
+
+    fun beginDelivery() {
+        status = DeliveryStatus.INPROGRESS
+    }
 
     enum class DeliveryStatus(
         val statusName: String
