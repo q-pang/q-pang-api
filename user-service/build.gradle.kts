@@ -38,8 +38,6 @@ dependencies {
 	implementation("com.querydsl:querydsl-jpa:${property("querydslVersion")}")
 	kapt("com.querydsl:querydsl-apt:${property("querydslVersion")}:jpa")
 
-	runtimeOnly("com.h2database:h2")
-
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.kotest:kotest-runner-junit5-jvm:${property("kotestVersion")}")
 	testImplementation("io.kotest:kotest-assertions-core-jvm:${property("kotestVersion")}")
