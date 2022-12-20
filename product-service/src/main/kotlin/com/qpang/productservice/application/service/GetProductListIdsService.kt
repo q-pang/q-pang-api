@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class GetProductListIdsIdsService(
+class GetProductListIdsService(
     private val productPersistencePort: ProductPersistencePort
 ) : GetProductListIdsUseCase {
     @Transactional(readOnly = true)
