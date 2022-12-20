@@ -36,11 +36,11 @@ class MyInfoServiceDescribeSpec : DescribeSpec({
     }
 }) {
     companion object {
-        private val registeredUserCommand = MyInfoUseCase.GetUserCommand(
+        private val registeredUserCommand = MyInfoUseCase.MyInfoCommand(
             username = "username"
         )
 
-        private val notRegisteredUserCommand = MyInfoUseCase.GetUserCommand(
+        private val notRegisteredUserCommand = MyInfoUseCase.MyInfoCommand(
             username = "username"
         )
     }

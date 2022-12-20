@@ -12,11 +12,11 @@ class MyInfoService(
     private val userPersistencePort: UserPersistencePort
 ) : MyInfoUseCase {
     @Transactional(readOnly = true)
-    override fun command(command: MyInfoUseCase.GetUserCommand): MyInfoUseCase.GetUserInfo {
+    override fun command(command: MyInfoUseCase.MyInfoCommand): MyInfoUseCase.MyInfoInfo {
         val savedUser = userPersistencePort.findUserByUsername(command.username)
         savedUser ?: throw UsernameNotFoundException(command.username)
 
-        return MyInfoUseCase.GetUserInfo(
+        return MyInfoUseCase.MyInfoInfo(
             id = savedUser.getId(),
             username = savedUser.username,
             name = savedUser.name,

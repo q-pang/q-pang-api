@@ -15,7 +15,7 @@ class MyInfoRestAdapter(
     fun deleteUser(
         @RequestHeader(name = "username", required = true) username: String
     ): ResponseEntity<GetUserResponseDto> {
-        val command = MyInfoUseCase.GetUserCommand(username)
+        val command = MyInfoUseCase.MyInfoCommand(username)
         return ResponseEntity.ok().body(GetUserResponseDto.from(myInfoUseCase.command(command)))
     }
 
@@ -26,7 +26,7 @@ class MyInfoRestAdapter(
         val paymentMethods: List<PaymentMethodResponseDto>
     ) {
         companion object {
-            fun from(info: MyInfoUseCase.GetUserInfo) = GetUserResponseDto(
+            fun from(info: MyInfoUseCase.MyInfoInfo) = GetUserResponseDto(
                 id = info.id,
                 username = info.username,
                 name = info.name,

@@ -3,13 +3,13 @@ package com.qpang.userservice.application.port.`in`.usecase
 import com.qpang.userservice.application.port.`in`.usecase.info.PaymentMethodInfo
 
 interface MyInfoUseCase {
-    fun command(command: GetUserCommand): GetUserInfo
+    fun command(command: MyInfoCommand): MyInfoInfo
 
-    data class GetUserCommand(
+    data class MyInfoCommand(
         val username: String
     )
 
-    data class GetUserInfo(
+    data class MyInfoInfo(
         val id: String,
         val username: String,
         val name: String,
