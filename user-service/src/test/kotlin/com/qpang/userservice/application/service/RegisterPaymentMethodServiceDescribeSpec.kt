@@ -21,13 +21,13 @@ class RegisterPaymentMethodServiceDescribeSpec : DescribeSpec({
             val expectedUser = User(username = "username", password = "password", name = "name")
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("결제수단 추가에 성공하고 RegisterPaymentMethodInfo 응답") {
-                val registerPaymentMethodInfo = registerPaymentMethodService.command(registeredUserCommand)
+                val resultInfo = registerPaymentMethodService.command(registeredUserCommand)
 
                 assertSoftly {
-                    registerPaymentMethodInfo.username shouldBe registeredUserCommand.username
-                    registerPaymentMethodInfo.type shouldBe registeredUserCommand.type
-                    registerPaymentMethodInfo.company shouldBe registeredUserCommand.company
-                    registerPaymentMethodInfo.number shouldBe registeredUserCommand.number
+                    resultInfo.username shouldBe registeredUserCommand.username
+                    resultInfo.type shouldBe registeredUserCommand.type
+                    resultInfo.company shouldBe registeredUserCommand.company
+                    resultInfo.number shouldBe registeredUserCommand.number
                 }
             }
         }

@@ -34,9 +34,9 @@ class DeletePaymentMethodServiceDescribeSpec : DescribeSpec({
 
                 every { mockUserPersistencePort.findUserByUsername(registeredPaymentMethodCommand.username) } answers { expectedUser }
                 it("결제수단 삭제에 성공하고 DeletePaymentMethodInfo 응답") {
-                    val deletePaymentMethodInfo = deletePaymentMethodService.command(registeredPaymentMethodCommand)
+                    val resultInfo = deletePaymentMethodService.command(registeredPaymentMethodCommand)
 
-                    deletePaymentMethodInfo.username shouldBe registeredPaymentMethodCommand.username
+                    resultInfo.username shouldBe registeredPaymentMethodCommand.username
                 }
             }
 

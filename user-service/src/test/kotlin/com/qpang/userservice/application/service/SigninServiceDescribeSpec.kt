@@ -27,9 +27,9 @@ class SigninServiceDescribeSpec : DescribeSpec({
             )
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("로그인에 성공하고 SigninInfo 응답") {
-                val signinInfo = signinService.command(registeredUserCommand)
+                val resultInfo = signinService.command(registeredUserCommand)
 
-                signinInfo.username shouldBe registeredUserCommand.username
+                resultInfo.username shouldBe registeredUserCommand.username
             }
         }
 

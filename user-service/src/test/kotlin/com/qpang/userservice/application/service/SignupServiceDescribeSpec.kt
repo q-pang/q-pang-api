@@ -21,11 +21,11 @@ class SignupServiceDescribeSpec : DescribeSpec({
             every { mockUserPersistencePort.saveUser(any()) } answers { notDuplicatedUsernameCommand.toEntity() }
             every { mockUserPersistencePort.existsUserByUsername(notDuplicatedUsernameCommand.username) } answers { false }
             it("회원가입에 성공하고 SignupInfo 응답") {
-                val signupInfo = signupService.command(notDuplicatedUsernameCommand)
+                val resultInfo = signupService.command(notDuplicatedUsernameCommand)
 
                 assertSoftly {
-                    signupInfo.username shouldBe notDuplicatedUsernameCommand.username
-                    signupInfo.name shouldBe notDuplicatedUsernameCommand.name
+                    resultInfo.username shouldBe notDuplicatedUsernameCommand.username
+                    resultInfo.name shouldBe notDuplicatedUsernameCommand.name
                 }
             }
         }

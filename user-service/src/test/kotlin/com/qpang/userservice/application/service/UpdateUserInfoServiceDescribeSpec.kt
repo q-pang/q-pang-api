@@ -19,9 +19,9 @@ class UpdateUserInfoServiceDescribeSpec : DescribeSpec({
             val expectedUser = User(username = "username", password = "password", name = "name")
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("회원정보 변경에 성공하고 UpdateUserInfo 응답") {
-                val updateUserInfo = updateUserInfoService.command(registeredUserCommand)
+                val resultInfo = updateUserInfoService.command(registeredUserCommand)
 
-                updateUserInfo.name shouldBe registeredUserCommand.name
+                resultInfo.name shouldBe registeredUserCommand.name
             }
         }
 

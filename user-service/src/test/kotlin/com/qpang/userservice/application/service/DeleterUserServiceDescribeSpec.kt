@@ -20,9 +20,9 @@ class DeleterUserServiceDescribeSpec : DescribeSpec({
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             every { mockUserPersistencePort.deleteUser(expectedUser) } answers {}
             it("회원탈퇴에 성공하고 DeleteUserInfo 응답") {
-                val deleteUserInfo = deleteUserService.command(registeredUserCommand)
+                val resultInfo = deleteUserService.command(registeredUserCommand)
 
-                deleteUserInfo.username shouldBe registeredUserCommand.username
+                resultInfo.username shouldBe registeredUserCommand.username
             }
         }
 

@@ -18,10 +18,10 @@ class MyInfoServiceDescribeSpec : DescribeSpec({
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
-            it("내 정보 조회에 성공하고 GetUserInfo 응답") {
-                val getUserInfo = myInfoService.command(registeredUserCommand)
+            it("내 정보 조회에 성공하고 MyInfoInfo 응답") {
+                val resultInfo = myInfoService.command(registeredUserCommand)
 
-                getUserInfo.username shouldBe registeredUserCommand.username
+                resultInfo.username shouldBe registeredUserCommand.username
             }
         }
 
