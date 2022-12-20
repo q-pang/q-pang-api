@@ -5,6 +5,7 @@ import com.qpang.orderservice.application.port.`in`.dto.OrderItemCommand
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.ProductServiceRestPort
 import com.qpang.orderservice.application.port.out.rest.dto.ProductResponseDto
+import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.application.service.exception.OutOfStockException
 import com.qpang.orderservice.application.service.exception.ProductNotFoundException
 import com.qpang.orderservice.domain.Order
@@ -54,10 +55,13 @@ class RegisterOrderService(
                     if (it.stock < orderItemCommandList[i].count) {
                         throw OutOfStockException(it.id, it.name, it.stock)
                     }
+                    if (it.price != orderItemCommandList[i].price) {
+                        throw IncorrectPriceException(it.id, it.name, it.price)
+                    }
                 }
             }
-            if (i > productCount) {
-                throw ProductNotFoundException(orderItemCommandList[i - 1].productId, orderItemCommandList[i - 1].name)
+            if (i + 1 > productCount) {
+                throw ProductNotFoundException(orderItemCommandList[i].productId, orderItemCommandList[i].name)
             }
         }
     }
