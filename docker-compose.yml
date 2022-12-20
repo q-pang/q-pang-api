@@ -24,7 +24,9 @@ services:
     environment:
       KAFKA_ADVERTISED_HOST_NAME: localhost
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "topic:1:1"
+      KAFKA_CREATE_TOPICS: "exam-topic:1:1"
+      KAFKA_CFG_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     depends_on:
