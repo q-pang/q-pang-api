@@ -1,22 +1,22 @@
 package com.qpang.userservice.adapter.`in`.rest
 
 import com.qpang.userservice.adapter.`in`.rest.dto.PaymentMethodResponseDto
-import com.qpang.userservice.application.port.`in`.usecase.GetUserUseCase
+import com.qpang.userservice.application.port.`in`.usecase.MyInfoUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class GetUserRestAdapter(
-    private val getUserUseCase: GetUserUseCase
+class MyInfoRestAdapter(
+    private val myInfoUseCase: MyInfoUseCase
 ) {
     @GetMapping("/user/my")
     fun deleteUser(
         @RequestHeader(name = "username", required = true) username: String
     ): ResponseEntity<GetUserResponseDto> {
-        val command = GetUserUseCase.GetUserCommand(username)
-        return ResponseEntity.ok().body(GetUserResponseDto.from(getUserUseCase.command(command)))
+        val command = MyInfoUseCase.GetUserCommand(username)
+        return ResponseEntity.ok().body(GetUserResponseDto.from(myInfoUseCase.command(command)))
     }
 
     data class GetUserResponseDto(
@@ -26,7 +26,7 @@ class GetUserRestAdapter(
         val paymentMethods: List<PaymentMethodResponseDto>
     ) {
         companion object {
-            fun from(info: GetUserUseCase.GetUserInfo) = GetUserResponseDto(
+            fun from(info: MyInfoUseCase.GetUserInfo) = GetUserResponseDto(
                 id = info.id,
                 username = info.username,
                 name = info.name,

@@ -2,7 +2,7 @@ package com.qpang.userservice.application.port.`in`.usecase
 
 import com.qpang.userservice.application.port.`in`.usecase.info.PaymentMethodInfo
 
-interface GetUserUseCase {
+interface MyInfoUseCase {
     fun command(command: GetUserCommand): GetUserInfo
 
     data class GetUserCommand(

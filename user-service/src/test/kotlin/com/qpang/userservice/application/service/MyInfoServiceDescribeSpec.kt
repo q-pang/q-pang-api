@@ -1,6 +1,6 @@
 package com.qpang.userservice.application.service
 
-import com.qpang.userservice.application.port.`in`.usecase.GetUserUseCase
+import com.qpang.userservice.application.port.`in`.usecase.MyInfoUseCase
 import com.qpang.userservice.application.port.out.persistence.UserPersistencePort
 import com.qpang.userservice.application.service.exception.UsernameNotFoundException
 import com.qpang.userservice.domain.User
@@ -10,11 +10,11 @@ import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
 
-class GetUserServiceDescribeSpec : DescribeSpec({
+class MyInfoServiceDescribeSpec : DescribeSpec({
     val mockUserPersistencePort: UserPersistencePort = mockk()
-    val getUserService = GetUserService(mockUserPersistencePort)
+    val getUserService = MyInfoService(mockUserPersistencePort)
 
-    describe("getUser") {
+    describe("myInfo") {
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
@@ -36,11 +36,11 @@ class GetUserServiceDescribeSpec : DescribeSpec({
     }
 }) {
     companion object {
-        private val registeredUserCommand = GetUserUseCase.GetUserCommand(
+        private val registeredUserCommand = MyInfoUseCase.GetUserCommand(
             username = "username"
         )
 
-        private val notRegisteredUserCommand = GetUserUseCase.GetUserCommand(
+        private val notRegisteredUserCommand = MyInfoUseCase.GetUserCommand(
             username = "username"
         )
     }
