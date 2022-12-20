@@ -14,7 +14,7 @@ class GetProductListIdsServiceDescribeSpec : DescribeSpec({
     val getProductListIdsService = GetProductListIdsService(mockProductPersistencePort)
 
     describe("getProductListIds") {
-        context("ids가 담긴 Command가 주어지면") {
+        context("등록된 상품들의 ids가 담긴 Command가 주어지면") {
             val expectedProductList = listOf(
                 Product(name = "티셔츠", stock = 10, price = 100, category = ProductCategory("의류")),
                 Product(name = "청바지", stock = 10, price = 100, category = ProductCategory("의류"))
