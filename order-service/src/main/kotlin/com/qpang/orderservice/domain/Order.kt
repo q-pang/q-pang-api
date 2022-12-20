@@ -6,13 +6,10 @@ import javax.persistence.*
 @Entity
 @Table(name = "orders")
 class Order(
-    totalPrice: Long,
     consumerId: String,
-    orderItems: MutableList<OrderItem>,
-    payment: Payment
 ) : JpaAuditEntity() {
     @Column(name = "total_price", nullable = false)
-    var totalPrice: Long = totalPrice
+    var totalPrice: Long = 0
         protected set
 
     @Column(name = "consumer_id", nullable = false)
@@ -20,10 +17,22 @@ class Order(
         protected set
 
     @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST], orphanRemoval = true)
-    var orderItems: MutableList<OrderItem> = orderItems
+    var orderItems: MutableList<OrderItem> = mutableListOf()
         protected set
 
-    @OneToOne(mappedBy = "order", optional = false, cascade = [CascadeType.PERSIST], orphanRemoval = true)
-    var payment: Payment = payment
+    @OneToOne(mappedBy = "order", cascade = [CascadeType.PERSIST], orphanRemoval = true)
+    var payment: Payment? = null
         protected set
+
+    fun addOrderItems(newOrderItems: List<OrderItem>) {
+        orderItems = newOrderItems.toMutableList()
+    }
+
+    fun addPayment(newPayment: Payment) {
+        payment = newPayment
+    }
+
+    fun addTotalPrice(newTotalPrice: Long) {
+        totalPrice = newTotalPrice
+    }
 }
