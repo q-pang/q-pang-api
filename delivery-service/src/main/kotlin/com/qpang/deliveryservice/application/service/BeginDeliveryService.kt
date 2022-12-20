@@ -4,11 +4,13 @@ import com.qpang.deliveryservice.application.port.`in`.BeginDeliveryUseCase
 import com.qpang.deliveryservice.application.port.out.persistence.DeliveryPersistencePort
 import com.qpang.deliveryservice.application.service.exception.DeliveryIdNotFoundException
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BeginDeliveryService(
     private val deliveryPersistencePort: DeliveryPersistencePort
 ) : BeginDeliveryUseCase {
+    @Transactional
     override fun command(command: BeginDeliveryUseCase.BeginDeliveryCommand): BeginDeliveryUseCase.BeginDeliveryInfo {
         val savedDelivery = deliveryPersistencePort.findById(command.id)
         savedDelivery ?: throw DeliveryIdNotFoundException(command.id)
