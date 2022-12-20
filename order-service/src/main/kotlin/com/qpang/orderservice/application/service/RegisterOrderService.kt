@@ -4,7 +4,9 @@ import com.qpang.orderservice.application.port.`in`.RegisterOrderUseCase
 import com.qpang.orderservice.application.port.`in`.dto.OrderItemCommand
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.ProductServiceRestPort
+import com.qpang.orderservice.application.port.out.rest.UserServiceRestPort
 import com.qpang.orderservice.application.port.out.rest.dto.ProductResponseDto
+import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
 import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.application.service.exception.OutOfStockException
 import com.qpang.orderservice.application.service.exception.ProductNotFoundException
@@ -17,13 +19,15 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class RegisterOrderService(
     private val orderPersistencePort: OrderPersistencePort,
-    private val productServiceRestPort: ProductServiceRestPort
+    private val productServiceRestPort: ProductServiceRestPort,
+    private val userServiceRestPort: UserServiceRestPort
 ) : RegisterOrderUseCase {
     @Transactional
     override fun command(command: RegisterOrderUseCase.RegisterOrderCommand): RegisterOrderUseCase.RegisterOrderInfo {
-        val productEntityList = getProductEntities(command.orderItemCommands)
-        verifyProducts(command.orderItemCommands, productEntityList)
+        val savedProductList = getProductEntities(command.orderItemCommands)
+        verifyProducts(command.orderItemCommands, savedProductList)
         // TODO: userId 혹은 username으로 UserService를 synchronous 하게 호출하여 회원이 유효한지 확인
+        val savedUser = getUserEntity(command.consumerId)
 
         val savedOrder = orderPersistencePort.saveOrder(Order(command.consumerId))
         val newOrderItems = createNewOrderItems(command, savedOrder)
@@ -36,6 +40,8 @@ class RegisterOrderService(
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
 
+    private fun getUserEntity(consumerId: String): UserResponseDto = userServiceRestPort.getUser(consumerId)
+
     private fun getProductEntities(orderItemCommandList: List<OrderItemCommand>): List<ProductResponseDto> {
         var productIds = mutableListOf<String>()
         orderItemCommandList.forEach { productIds.add(it.productId) }
@@ -45,11 +51,11 @@ class RegisterOrderService(
 
     private fun verifyProducts(
         orderItemCommandList: List<OrderItemCommand>,
-        productEntityList: List<ProductResponseDto>
+        savedProductList: List<ProductResponseDto>
     ) {
         var productCount = 0
         for (i in orderItemCommandList.indices) {
-            productEntityList.forEach {
+            savedProductList.forEach {
                 if (it.id == orderItemCommandList[i].productId) {
                     productCount++
                     if (it.stock < orderItemCommandList[i].count) {
