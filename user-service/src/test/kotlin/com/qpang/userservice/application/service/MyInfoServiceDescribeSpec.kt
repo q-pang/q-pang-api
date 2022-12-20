@@ -12,14 +12,14 @@ import io.mockk.mockk
 
 class MyInfoServiceDescribeSpec : DescribeSpec({
     val mockUserPersistencePort: UserPersistencePort = mockk()
-    val getUserService = MyInfoService(mockUserPersistencePort)
+    val myInfoService = MyInfoService(mockUserPersistencePort)
 
     describe("myInfo") {
         context("회원가입된 username을 가진 Command가 주어지면") {
             val expectedUser = User(username = "username", password = "password", name = "name")
             every { mockUserPersistencePort.findUserByUsername(registeredUserCommand.username) } answers { expectedUser }
             it("내 정보 조회에 성공하고 GetUserInfo 응답") {
-                val getUserInfo = getUserService.command(registeredUserCommand)
+                val getUserInfo = myInfoService.command(registeredUserCommand)
 
                 getUserInfo.username shouldBe registeredUserCommand.username
             }
@@ -29,7 +29,7 @@ class MyInfoServiceDescribeSpec : DescribeSpec({
             every { mockUserPersistencePort.findUserByUsername(notRegisteredUserCommand.username) } answers { null }
             it("UsernameNotFoundException 발생") {
                 shouldThrow<UsernameNotFoundException> {
-                    getUserService.command(notRegisteredUserCommand)
+                    myInfoService.command(notRegisteredUserCommand)
                 }
             }
         }
