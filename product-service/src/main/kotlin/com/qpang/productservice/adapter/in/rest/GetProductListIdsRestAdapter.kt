@@ -4,24 +4,22 @@ import com.qpang.productservice.adapter.`in`.rest.dto.ProductCategoryResponseDto
 import com.qpang.productservice.application.port.`in`.usecase.GetProductListIdsUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
-import javax.validation.Valid
 
 @RestController
 class GetProductListIdsRestAdapter(
     private val getProductListIdsUseCase: GetProductListIdsUseCase
 ) {
     @GetMapping("/product/list/ids")
-    fun getProductListIds(@RequestBody @Valid dto: GetProductListIdsRequestDto): ResponseEntity<List<GetProductListIdsResponseDto>> =
-        ResponseEntity.ok().body(GetProductListIdsResponseDto.from(getProductListIdsUseCase.command(dto.toCommand())))
-
-    data class GetProductListIdsRequestDto(
-        val ids: List<String>
-    ) {
-        fun toCommand(): GetProductListIdsUseCase.GetProductListIdsCommand =
-            GetProductListIdsUseCase.GetProductListIdsCommand(ids = ids)
-    }
+    fun getProductListIds(@RequestParam productIds: List<String>): ResponseEntity<List<GetProductListIdsResponseDto>> =
+        ResponseEntity.ok().body(
+            GetProductListIdsResponseDto.from(
+                getProductListIdsUseCase.command(
+                    GetProductListIdsUseCase.GetProductListIdsCommand(productIds)
+                )
+            )
+        )
 
     data class GetProductListIdsResponseDto(
         val id: String,
