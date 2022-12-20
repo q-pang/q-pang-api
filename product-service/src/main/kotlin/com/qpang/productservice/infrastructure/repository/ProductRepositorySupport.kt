@@ -29,6 +29,13 @@ class ProductRepositorySupport(
             .fetchJoin()
             .fetch()
 
+    fun findProductsByIds(ids: List<String>): List<Product> =
+        queryFactory.selectFrom(QProduct.product)
+            .where(QProduct.product.id.`in`(ids))
+            .leftJoin(QProduct.product.category, QProductCategory.productCategory)
+            .fetchJoin()
+            .fetch()
+
     private fun eqCategoryId(categoryId: String?): BooleanExpression? {
         if (categoryId == null) return null
         return QProduct.product.category.id.eq(categoryId)
