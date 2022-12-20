@@ -12,21 +12,21 @@ class MyInfoRestAdapter(
     private val myInfoUseCase: MyInfoUseCase
 ) {
     @GetMapping("/user/my")
-    fun deleteUser(
+    fun myInfo(
         @RequestHeader(name = "username", required = true) username: String
-    ): ResponseEntity<GetUserResponseDto> {
+    ): ResponseEntity<MyInfoResponseDto> {
         val command = MyInfoUseCase.MyInfoCommand(username)
-        return ResponseEntity.ok().body(GetUserResponseDto.from(myInfoUseCase.command(command)))
+        return ResponseEntity.ok().body(MyInfoResponseDto.from(myInfoUseCase.command(command)))
     }
 
-    data class GetUserResponseDto(
+    data class MyInfoResponseDto(
         val id: String,
         val username: String,
         val name: String,
         val paymentMethods: List<PaymentMethodResponseDto>
     ) {
         companion object {
-            fun from(info: MyInfoUseCase.MyInfoInfo) = GetUserResponseDto(
+            fun from(info: MyInfoUseCase.MyInfoInfo) = MyInfoResponseDto(
                 id = info.id,
                 username = info.username,
                 name = info.name,

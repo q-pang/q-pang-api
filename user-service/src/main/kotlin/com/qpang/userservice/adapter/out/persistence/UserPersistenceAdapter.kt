@@ -14,5 +14,6 @@ class UserPersistenceAdapter(
     override fun saveUser(user: User): User = userRepository.save(user)
     override fun existsUserByUsername(username: String): Boolean = userRepository.existsByUsername(username)
     override fun findUserByUsername(username: String): User? = userRepositorySupport.findByUsername(username)
+    override fun findUserById(id: String): User? = userRepository.findUserById(id)
     override fun deleteUser(user: User) = userRepository.delete(user)
 }
