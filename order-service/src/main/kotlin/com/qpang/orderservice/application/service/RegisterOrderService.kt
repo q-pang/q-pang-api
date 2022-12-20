@@ -10,9 +10,11 @@ import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
 import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.application.service.exception.OutOfStockException
 import com.qpang.orderservice.application.service.exception.ProductNotFoundException
+import com.qpang.orderservice.application.service.exception.UserNotFoundException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.OrderItem
 import com.qpang.orderservice.domain.Payment
+import feign.FeignException.FeignServerException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -26,7 +28,6 @@ class RegisterOrderService(
     override fun command(command: RegisterOrderUseCase.RegisterOrderCommand): RegisterOrderUseCase.RegisterOrderInfo {
         val savedProductList = getProductEntities(command.orderItemCommands)
         verifyProducts(command.orderItemCommands, savedProductList)
-        // TODO: userId 혹은 username으로 UserService를 synchronous 하게 호출하여 회원이 유효한지 확인
         val savedUser = getUserEntity(command.consumerId)
 
         val savedOrder = orderPersistencePort.saveOrder(Order(command.consumerId))
@@ -40,7 +41,13 @@ class RegisterOrderService(
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
 
-    private fun getUserEntity(consumerId: String): UserResponseDto = userServiceRestPort.getUser(consumerId)
+    private fun getUserEntity(consumerId: String): UserResponseDto {
+        try {
+            return userServiceRestPort.getUser(consumerId)
+        } catch (e: FeignServerException) {
+            throw UserNotFoundException(consumerId)
+        }
+    }
 
     private fun getProductEntities(orderItemCommandList: List<OrderItemCommand>): List<ProductResponseDto> {
         var productIds = mutableListOf<String>()
