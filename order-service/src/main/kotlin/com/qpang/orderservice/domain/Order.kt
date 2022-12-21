@@ -1,6 +1,7 @@
 package com.qpang.orderservice.domain
 
 import com.qpang.orderservice.common.entity.JpaAuditEntity
+import com.qpang.orderservice.domain.exception.AlreadyCanceledFoundException
 import javax.persistence.*
 
 @Entity
@@ -38,5 +39,10 @@ class Order(
 
     fun addTotalPrice(newTotalPrice: Long) {
         totalPrice = newTotalPrice
+    }
+
+    fun cancel() {
+        if (cancelFlag) throw AlreadyCanceledFoundException(getId())
+        cancelFlag = true
     }
 }

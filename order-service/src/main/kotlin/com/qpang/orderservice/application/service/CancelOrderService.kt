@@ -14,6 +14,7 @@ class CancelOrderService(
     override fun command(command: CancelOrderUseCase.CancelOrderCommand): CancelOrderUseCase.CancelOrderInfo {
         val savedOrder = orderPersistencePort.findOrderById(command.orderId)
         savedOrder?: throw OrderNotFoundException(command.orderId)
+        savedOrder.cancel()
 
         return CancelOrderUseCase.CancelOrderInfo.from(savedOrder)
     }

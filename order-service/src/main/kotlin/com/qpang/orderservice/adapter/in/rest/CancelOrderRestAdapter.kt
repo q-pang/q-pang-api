@@ -5,6 +5,7 @@ import com.qpang.orderservice.adapter.`in`.rest.dto.PaymentResponseDto
 import com.qpang.orderservice.application.port.`in`.CancelOrderUseCase
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
@@ -13,7 +14,7 @@ import javax.validation.Valid
 class CancelOrderRestAdapter(
     private val cancelOrderUseCase: CancelOrderUseCase
 ) {
-    @DeleteMapping("/order")
+    @PostMapping("/order/cancel")
     fun cancelOrder(@RequestBody @Valid dto: CancelOrderRequestDto): ResponseEntity<CancelOrderResponseDto> =
         ResponseEntity.ok().body(CancelOrderResponseDto.from(cancelOrderUseCase.command(dto.toCommand())))
 
