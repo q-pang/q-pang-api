@@ -11,8 +11,8 @@ class PaymentAdapter(
     private val paymentModule: PaymentModule
 ) : PaymentPort {
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
-    override fun payment(paymentRequestDto: PaymentPort.PaymentRequestDto) {
-        paymentModule.payment(
+    override fun payment(paymentRequestDto: PaymentPort.ExternalPaymentRequestDto): String {
+        return paymentModule.payment(
             paymentRequestDto.name,
             paymentRequestDto.type.typeName,
             paymentRequestDto.company.companyName,

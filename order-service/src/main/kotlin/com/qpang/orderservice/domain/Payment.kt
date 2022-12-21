@@ -30,9 +30,17 @@ class Payment(
     var username: String = username
         protected set
 
+    @Column(name = "external_payment_id")
+    var externalPaymentId: String? = null
+        protected set
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "order_id")
     var order: Order = order
+
+    fun addExternalPaymentId(newExternalPaymentId: String) {
+        externalPaymentId = newExternalPaymentId
+    }
 
     enum class PaymentMethodType(
         val typeName: String

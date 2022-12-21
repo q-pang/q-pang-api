@@ -3,9 +3,9 @@ package com.qpang.orderservice.application.port.out.external
 import com.qpang.orderservice.domain.Payment
 
 interface PaymentPort {
-    fun payment(paymentRequestDto: PaymentRequestDto)
+    fun payment(paymentRequestDto: ExternalPaymentRequestDto): String
 
-    data class PaymentRequestDto(
+    data class ExternalPaymentRequestDto(
         val name: String,
         val type: Payment.PaymentMethodType,
         val company: Payment.CardCompany,

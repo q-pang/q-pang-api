@@ -42,7 +42,8 @@ class RegisterOrderService(
         savedOrder.addPayment(newPayment)
         savedOrder.addTotalPrice(totalPrice)
 
-        paymentPort.payment(createPaymentRequestDto(savedUser, newPayment, savedOrder))
+        val newExternalPaymentId = paymentPort.payment(createExternalPaymentRequestDto(savedUser, newPayment, savedOrder))
+        newPayment.addExternalPaymentId(newExternalPaymentId)
 
         val newOrderEvent = createOrderEvent(command.orderItemCommands, savedOrder.getId())
         eventProductPort.order(newOrderEvent)
@@ -50,11 +51,11 @@ class RegisterOrderService(
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
 
-    private fun createPaymentRequestDto(
+    private fun createExternalPaymentRequestDto(
         savedUser: UserResponseDto,
         newPayment: Payment,
         savedOrder: Order
-    ) = PaymentPort.PaymentRequestDto(
+    ) = PaymentPort.ExternalPaymentRequestDto(
         name = savedUser.name,
         type = newPayment.type,
         company = newPayment.company,
