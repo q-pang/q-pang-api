@@ -13,7 +13,7 @@ services:
       - ./init:/docker-entrypoint-initdb.d
 
   zookeeper:
-    image: wurstmeister/zookeeper
+    image: arm64v8/zookeeper
     ports:
       - "2181:2181"
 
