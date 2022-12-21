@@ -11,6 +11,7 @@ class OrderEventAdapter(
 ) {
     @KafkaListener(topics = ["order"])
     fun consume(event: OrderEvent) {
+        // TODO: 상품 리스트를 command로 사용하는 Application Service 추가하여 반복적인 command 실행 대체
         for (i in event.productList.indices) {
             val updateProduct = event.productList[i]
             val updateStockCommand = UpdateStockUseCase.UpdateStockCommand(
