@@ -41,20 +41,21 @@ class RegisterOrderService(
         savedOrder.addPayment(newPayment)
         savedOrder.addTotalPrice(totalPrice)
 
-        val newOrderEvent = createOrderEvent(command.orderItemCommands)
+        val newOrderEvent = createOrderEvent(command.orderItemCommands, savedOrder.getId())
         eventProductPort.order(newOrderEvent)
 
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
 
-    private fun createOrderEvent(command: List<OrderItemCommand>): OrderEvent =
+    private fun createOrderEvent(command: List<OrderItemCommand>, orderId: String): OrderEvent =
         OrderEvent(
-            command.map {
+            productList = command.map {
                 OrderEvent.Product(
                     id = it.productId,
                     count = it.count
                 )
-            }
+            },
+            orderId = orderId
         )
 
     private fun getUserEntity(consumerId: String): UserResponseDto {
