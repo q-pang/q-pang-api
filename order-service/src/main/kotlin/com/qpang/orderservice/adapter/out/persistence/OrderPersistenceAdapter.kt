@@ -10,4 +10,5 @@ class OrderPersistenceAdapter(
     private val orderRepository: OrderRepository
 ) : OrderPersistencePort {
     override fun saveOrder(order: Order): Order = orderRepository.save(order)
+    override fun findOrderById(id: String): Order? = orderRepository.findOrderById(id)
 }

@@ -4,4 +4,5 @@ import com.qpang.orderservice.domain.Order
 
 interface OrderPersistencePort {
     fun saveOrder(order: Order): Order
+    fun findOrderById(id: String): Order?
 }
