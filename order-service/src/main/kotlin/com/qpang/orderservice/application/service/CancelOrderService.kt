@@ -32,7 +32,7 @@ class CancelOrderService(
 
     private fun createCancelOrderEvent(savedOrder: Order) = CancelOrderEvent(
         productList = savedOrder.orderItems.map {
-            CancelOrderEvent.Product(id = it.getId(), count = it.count)
+            CancelOrderEvent.Product(id = it.productId, count = it.count)
         },
         orderId = savedOrder.getId()
     )
