@@ -16,6 +16,10 @@ class Order(
     var consumerId: String = consumerId
         protected set
 
+    @Column(name = "cancel_flag", nullable = false)
+    var cancelFlag: Boolean = false
+        protected set
+
     @OneToMany(mappedBy = "order", cascade = [CascadeType.PERSIST], orphanRemoval = true)
     var orderItems: MutableList<OrderItem> = mutableListOf()
         protected set
