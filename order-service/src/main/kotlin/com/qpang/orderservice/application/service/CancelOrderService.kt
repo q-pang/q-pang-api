@@ -5,6 +5,7 @@ import com.qpang.orderservice.application.port.out.event.EventProducePort
 import com.qpang.orderservice.application.port.out.event.dto.CancelOrderEvent
 import com.qpang.orderservice.application.port.out.external.PaymentPort
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
+import com.qpang.orderservice.application.port.out.rest.DeliveryServiceRestPort
 import com.qpang.orderservice.application.service.exception.OrderNotFoundException
 import com.qpang.orderservice.domain.Order
 import org.springframework.stereotype.Service
@@ -14,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional
 class CancelOrderService(
     private val orderPersistencePort: OrderPersistencePort,
     private val paymentPort: PaymentPort,
-    private val eventProducePort: EventProducePort
+    private val eventProducePort: EventProducePort,
+    private val deliveryServiceRestPort: DeliveryServiceRestPort,
 ) : CancelOrderUseCase {
     @Transactional
     override fun command(command: CancelOrderUseCase.CancelOrderCommand): CancelOrderUseCase.CancelOrderInfo {
