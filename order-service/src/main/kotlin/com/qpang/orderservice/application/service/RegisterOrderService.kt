@@ -4,6 +4,7 @@ import com.qpang.orderservice.application.port.`in`.RegisterOrderUseCase
 import com.qpang.orderservice.application.port.`in`.dto.OrderItemCommand
 import com.qpang.orderservice.application.port.out.event.EventProducePort
 import com.qpang.orderservice.application.port.out.event.dto.OrderEvent
+import com.qpang.orderservice.application.port.out.external.PaymentPort
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.ProductServiceRestPort
 import com.qpang.orderservice.application.port.out.rest.UserServiceRestPort
@@ -25,14 +26,14 @@ class RegisterOrderService(
     private val orderPersistencePort: OrderPersistencePort,
     private val productServiceRestPort: ProductServiceRestPort,
     private val userServiceRestPort: UserServiceRestPort,
-    private val eventProductPort: EventProducePort
+    private val eventProductPort: EventProducePort,
+    private val paymentPort: PaymentPort
 ) : RegisterOrderUseCase {
     @Transactional
     override fun command(command: RegisterOrderUseCase.RegisterOrderCommand): RegisterOrderUseCase.RegisterOrderInfo {
         val savedProductList = getProductEntities(command.orderItemCommands)
         verifyProducts(command.orderItemCommands, savedProductList)
         val savedUser = getUserEntity(command.consumerId)
-
         val savedOrder = orderPersistencePort.saveOrder(Order(command.consumerId))
         val newOrderItems = createNewOrderItems(command, savedOrder)
         val newPayment = createNewPayment(command, savedOrder)
@@ -41,11 +42,25 @@ class RegisterOrderService(
         savedOrder.addPayment(newPayment)
         savedOrder.addTotalPrice(totalPrice)
 
+        paymentPort.payment(createPaymentRequestDto(savedUser, newPayment, savedOrder))
+
         val newOrderEvent = createOrderEvent(command.orderItemCommands, savedOrder.getId())
         eventProductPort.order(newOrderEvent)
 
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
+
+    private fun createPaymentRequestDto(
+        savedUser: UserResponseDto,
+        newPayment: Payment,
+        savedOrder: Order
+    ) = PaymentPort.PaymentRequestDto(
+        name = savedUser.name,
+        type = newPayment.type,
+        company = newPayment.company,
+        number = newPayment.number,
+        amount = savedOrder.totalPrice
+    )
 
     private fun createOrderEvent(command: List<OrderItemCommand>, orderId: String): OrderEvent =
         OrderEvent(
