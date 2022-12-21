@@ -1,5 +1,6 @@
 package com.qpang.orderservice.adapter.out.external
 
+import com.qpang.orderservice.adapter.out.external.exception.FailedCancelPaymentException
 import com.qpang.orderservice.application.port.out.external.PaymentPort
 import com.qpang.orderservice.infrastructure.external.PaymentModule
 import org.slf4j.Logger
@@ -21,7 +22,7 @@ class PaymentAdapter(
         )
     }
 
-    override fun cancelPayment(externalPaymentId: String): Boolean {
-        return paymentModule.cancelPayment(externalPaymentId)
+    override fun cancelPayment(externalPaymentId: String) {
+        if (!paymentModule.cancelPayment(externalPaymentId)) throw FailedCancelPaymentException(externalPaymentId)
     }
 }
