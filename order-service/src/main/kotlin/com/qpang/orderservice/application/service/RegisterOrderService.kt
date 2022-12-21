@@ -26,7 +26,7 @@ class RegisterOrderService(
     private val orderPersistencePort: OrderPersistencePort,
     private val productServiceRestPort: ProductServiceRestPort,
     private val userServiceRestPort: UserServiceRestPort,
-    private val eventProductPort: EventProducePort,
+    private val eventProducePort: EventProducePort,
     private val paymentPort: PaymentPort
 ) : RegisterOrderUseCase {
     @Transactional
@@ -46,7 +46,7 @@ class RegisterOrderService(
         newPayment.addExternalPaymentId(newExternalPaymentId)
 
         val newOrderEvent = createOrderEvent(command.orderItemCommands, savedOrder.getId())
-        eventProductPort.order(newOrderEvent)
+        eventProducePort.order(newOrderEvent)
 
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
