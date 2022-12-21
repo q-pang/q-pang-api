@@ -2,6 +2,8 @@ package com.qpang.orderservice.application.service
 
 import com.qpang.orderservice.application.port.`in`.RegisterOrderUseCase
 import com.qpang.orderservice.application.port.`in`.dto.OrderItemCommand
+import com.qpang.orderservice.application.port.out.event.EventProducePort
+import com.qpang.orderservice.application.port.out.event.dto.OrderEvent
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.ProductServiceRestPort
 import com.qpang.orderservice.application.port.out.rest.UserServiceRestPort
@@ -22,7 +24,8 @@ import org.springframework.transaction.annotation.Transactional
 class RegisterOrderService(
     private val orderPersistencePort: OrderPersistencePort,
     private val productServiceRestPort: ProductServiceRestPort,
-    private val userServiceRestPort: UserServiceRestPort
+    private val userServiceRestPort: UserServiceRestPort,
+    private val eventProductPort: EventProducePort
 ) : RegisterOrderUseCase {
     @Transactional
     override fun command(command: RegisterOrderUseCase.RegisterOrderCommand): RegisterOrderUseCase.RegisterOrderInfo {
@@ -38,8 +41,21 @@ class RegisterOrderService(
         savedOrder.addPayment(newPayment)
         savedOrder.addTotalPrice(totalPrice)
 
+        val newOrderEvent = createOrderEvent(command.orderItemCommands)
+        eventProductPort.order(newOrderEvent)
+
         return RegisterOrderUseCase.RegisterOrderInfo.from(savedOrder)
     }
+
+    private fun createOrderEvent(command: List<OrderItemCommand>): OrderEvent =
+        OrderEvent(
+            command.map {
+                OrderEvent.Product(
+                    id = it.productId,
+                    count = it.count
+                )
+            }
+        )
 
     private fun getUserEntity(consumerId: String): UserResponseDto {
         try {
