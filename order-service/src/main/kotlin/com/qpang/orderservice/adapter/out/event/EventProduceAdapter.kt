@@ -11,6 +11,5 @@ class EventProduceAdapter(
 ):EventProducePort {
     override fun order(orderEvent: OrderEvent) {
         kafkaTemplate.send("order", orderEvent)
-        println("orderEvent : ${orderEvent.toString()}")
     }
 }
