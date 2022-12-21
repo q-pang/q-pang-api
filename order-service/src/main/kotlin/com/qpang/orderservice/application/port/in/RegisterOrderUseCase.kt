@@ -16,6 +16,7 @@ interface RegisterOrderUseCase {
     )
 
     data class RegisterOrderInfo(
+        val orderId: String,
         val totalPrice: Long,
         val consumerId: String,
         val orderItemInfos: List<OrderItemInfo>,
@@ -23,6 +24,7 @@ interface RegisterOrderUseCase {
     ) {
         companion object {
             fun from(order: Order): RegisterOrderInfo = RegisterOrderInfo(
+                orderId = order.getId(),
                 totalPrice = order.totalPrice,
                 consumerId = order.consumerId,
                 orderItemInfos = order.orderItems.map { OrderItemInfo.from(it) },

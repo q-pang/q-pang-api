@@ -26,6 +26,7 @@ class CancelOrderRestAdapter(
     }
 
     data class CancelOrderResponseDto(
+        val orderId: String,
         val totalPrice: Long,
         val consumerId: String,
         val orderItemResponseDtos: List<OrderItemResponseDto>,
@@ -33,6 +34,7 @@ class CancelOrderRestAdapter(
     ) {
         companion object {
             fun from(info: CancelOrderUseCase.CancelOrderInfo): CancelOrderResponseDto = CancelOrderResponseDto(
+                orderId = info.orderId,
                 totalPrice = info.totalPrice,
                 consumerId = info.consumerId,
                 orderItemResponseDtos = info.orderItemInfos.map { OrderItemResponseDto.from(it) },

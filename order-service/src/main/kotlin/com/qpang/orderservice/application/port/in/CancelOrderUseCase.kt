@@ -12,6 +12,7 @@ interface CancelOrderUseCase {
     )
 
     data class CancelOrderInfo(
+        val orderId: String,
         val totalPrice: Long,
         val consumerId: String,
         val orderItemInfos: List<OrderItemInfo>,
@@ -19,6 +20,7 @@ interface CancelOrderUseCase {
     ) {
         companion object {
             fun from(order: Order): CancelOrderInfo = CancelOrderInfo(
+                orderId = order.getId(),
                 totalPrice = order.totalPrice,
                 consumerId = order.consumerId,
                 orderItemInfos = order.orderItems.map { OrderItemInfo.from(it) },

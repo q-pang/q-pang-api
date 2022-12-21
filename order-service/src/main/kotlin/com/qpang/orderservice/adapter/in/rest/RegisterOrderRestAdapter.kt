@@ -33,6 +33,7 @@ class RegisterOrderRestAdapter(
     }
 
     data class RegisterOrderResponseDto(
+        val orderId: String,
         val totalPrice: Long,
         val consumerId: String,
         val orderItemResponseDtos: List<OrderItemResponseDto>,
@@ -40,6 +41,7 @@ class RegisterOrderRestAdapter(
     ) {
         companion object {
             fun from(info: RegisterOrderUseCase.RegisterOrderInfo): RegisterOrderResponseDto = RegisterOrderResponseDto(
+                orderId = info.orderId,
                 totalPrice = info.totalPrice,
                 consumerId = info.consumerId,
                 orderItemResponseDtos = info.orderItemInfos.map { OrderItemResponseDto.from(it) },
