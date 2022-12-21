@@ -9,7 +9,12 @@ import org.springframework.stereotype.Component
 class PaymentModule {
     private val log: Logger = LoggerFactory.getLogger(this::class.java)
     fun payment(name: String, typeName: String, companyName: String, number: String, amount: Long): String {
-        log.info("execute payment module : $name, $typeName, $companyName, $number, $amount")
+        log.info("execute payment module : payment method : $name, $typeName, $companyName, $number, $amount")
         return UlidCreator.getMonotonicUlid().toUuid().toString()
+    }
+
+    fun cancelPayment(externalPaymentId: String): Boolean {
+        log.info("execute payment module : cancel payment method : $externalPaymentId")
+        return true
     }
 }

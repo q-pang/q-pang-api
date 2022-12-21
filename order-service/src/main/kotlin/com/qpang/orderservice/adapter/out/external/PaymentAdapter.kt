@@ -20,4 +20,8 @@ class PaymentAdapter(
             paymentRequestDto.amount
         )
     }
+
+    override fun cancelPayment(externalPaymentId: String): Boolean {
+        return paymentModule.cancelPayment(externalPaymentId)
+    }
 }
