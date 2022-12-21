@@ -22,6 +22,14 @@ spring:
       hibernate:
         format_sql: true
         show_sql: true
+  kafka:
+    consumer:
+      bootstrap-servers:
+        - kafka:9092
+      group-id: my_group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 management:
   endpoints:
