@@ -13,6 +13,7 @@ import com.qpang.orderservice.application.port.out.rest.dto.ProductResponseDto
 import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
 import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.application.service.exception.OutOfStockException
+import com.qpang.orderservice.application.service.exception.ProductNotFoundException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.Payment
 import io.kotest.assertions.assertSoftly
@@ -80,6 +81,16 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
 
                         it("주문에 실패하고 OutOfStockException 발생") {
                             shouldThrow<OutOfStockException> {
+                                registerOrderService.command(allRegisteredCommand)
+                            }
+                        }
+                    }
+
+                    context("주문한 상품의 갯수보다 실제 존재하는 상품 원본 데이터의 갯수가 적으면") {
+                        every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { emptyList() }
+
+                        it("주문에 실패하고 ProductNotFoundException 발생") {
+                            shouldThrow<ProductNotFoundException> {
                                 registerOrderService.command(allRegisteredCommand)
                             }
                         }
