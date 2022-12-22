@@ -49,15 +49,7 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
 
                     context("상품 원본 데이터와 가격이 일치하지 않으면") {
                         val expectedProductList =
-                            listOf(
-                                ProductResponseDto(
-                                    "registeredProductId",
-                                    "name",
-                                    10,
-                                    15000,
-                                    ProductCategoryResponseDto("category")
-                                )
-                            )
+                            listOf(                                ProductResponseDto(                                    "registeredProductId",                                    "name",                                    10,                                    15000,                                    ProductCategoryResponseDto("category")))
                         every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
 
                         it("주문에 실패하고 IncorrectPriceException 발생") {
@@ -88,11 +80,11 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
                     }
 
                     context("주문한 상품의 갯수보다 실제 존재하는 상품 원본 데이터의 갯수가 적으면") {
-                        every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { emptyList() }
+                        every { mockProductServiceRestPort.getProductListIds(notRegisteredProductIdCommand.orderItemCommands.map { it.productId }) } answers { emptyList() }
 
                         it("주문에 실패하고 ProductNotFoundException 발생") {
                             shouldThrow<ProductNotFoundException> {
-                                registerOrderService.command(allRegisteredCommand)
+                                registerOrderService.command(notRegisteredProductIdCommand)
                             }
                         }
                     }
@@ -134,13 +126,13 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
                         }
 
                         context("등록되지 않은 consumerId를 가진 커맨드가 주어지면") {
-                            every { mockUserServiceRestPort.getUser("registeredConsumerId") }.throws(
+                            every { mockUserServiceRestPort.getUser("notRegisteredConsumerId") }.throws(
                                 UserNotFoundException("registeredConsumerId")
                             )
 
                             it("주문에 실패하고 UserNotFoundException 발생") {
                                 shouldThrow<UserNotFoundException> {
-                                    registerOrderService.command(allRegisteredCommand)
+                                    registerOrderService.command(notRegisteredConsumerIdCommand)
                                 }
                             }
                         }
@@ -153,6 +145,42 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
     companion object {
         private val allRegisteredCommand = RegisterOrderUseCase.RegisterOrderCommand(
             consumerId = "registeredConsumerId",
+            orderItemCommands = listOf(
+                OrderItemCommand(
+                    name = "name",
+                    price = 16000,
+                    count = 1,
+                    productId = "registeredProductId"
+                )
+            ),
+            paymentCommand = PaymentCommand(
+                type = Payment.PaymentMethodType.CREDITCARD,
+                company = Payment.CardCompany.SAMSUNG,
+                number = "1234567890",
+                username = "username"
+            )
+        )
+
+        private val notRegisteredProductIdCommand = RegisterOrderUseCase.RegisterOrderCommand(
+            consumerId = "registeredConsumerId",
+            orderItemCommands = listOf(
+                OrderItemCommand(
+                    name = "name",
+                    price = 16000,
+                    count = 1,
+                    productId = "notRegisteredProductId"
+                )
+            ),
+            paymentCommand = PaymentCommand(
+                type = Payment.PaymentMethodType.CREDITCARD,
+                company = Payment.CardCompany.SAMSUNG,
+                number = "1234567890",
+                username = "username"
+            )
+        )
+
+        private val notRegisteredConsumerIdCommand = RegisterOrderUseCase.RegisterOrderCommand(
+            consumerId = "notRegisteredConsumerId",
             orderItemCommands = listOf(
                 OrderItemCommand(
                     name = "name",
