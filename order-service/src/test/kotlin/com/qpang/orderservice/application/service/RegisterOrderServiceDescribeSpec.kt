@@ -49,7 +49,7 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
 
                     context("상품 원본 데이터와 가격이 일치하지 않으면") {
                         val expectedProductList =
-                            listOf(                                ProductResponseDto(                                    "registeredProductId",                                    "name",                                    10,                                    15000,                                    ProductCategoryResponseDto("category")))
+                            listOf(ProductResponseDto("registeredProductId", "name", 10, 15000, ProductCategoryResponseDto("category")))
                         every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
 
                         it("주문에 실패하고 IncorrectPriceException 발생") {
@@ -61,15 +61,7 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
 
                     context("상품 원본 데이터의 재고보다 주문 수량이 많으면") {
                         val expectedProductList =
-                            listOf(
-                                ProductResponseDto(
-                                    "registeredProductId",
-                                    "name",
-                                    0,
-                                    16000,
-                                    ProductCategoryResponseDto("category")
-                                )
-                            )
+                            listOf(ProductResponseDto("registeredProductId", "name", 0, 16000, ProductCategoryResponseDto("category")))
                         every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
 
                         it("주문에 실패하고 OutOfStockException 발생") {
@@ -91,15 +83,7 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
 
                     context("상품 리스트 검증에 통과하고") {
                         val expectedProductList =
-                            listOf(
-                                ProductResponseDto(
-                                    "registeredProductId",
-                                    "name",
-                                    10,
-                                    16000,
-                                    ProductCategoryResponseDto("category")
-                                )
-                            )
+                            listOf(ProductResponseDto("registeredProductId", "name", 10, 16000, ProductCategoryResponseDto("category")))
                         every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
 
                         context("등록된 consumerId를 가진 커맨드가 주어지면") {
