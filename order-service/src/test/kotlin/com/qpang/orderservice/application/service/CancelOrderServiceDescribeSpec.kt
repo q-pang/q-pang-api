@@ -5,7 +5,9 @@ import com.qpang.orderservice.application.port.out.event.EventProducePort
 import com.qpang.orderservice.application.port.out.external.PaymentPort
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.DeliveryServiceRestPort
+import com.qpang.orderservice.application.port.out.rest.dto.DeliveryResponseDto
 import com.qpang.orderservice.application.service.exception.OrderNotFoundException
+import com.qpang.orderservice.application.service.exception.UncancellableException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.exception.AlreadyCanceledFoundException
 import io.kotest.assertions.throwables.shouldThrow
@@ -23,14 +25,34 @@ class CancelOrderServiceDescribeSpec : DescribeSpec({
 
     describe("cancelOrder") {
         context("등록된 orderId를 가지고") {
-            val expectedOrder = Order("registeredConsumerId")
-            every { mockOrderPersistencePort.findOrderById("registeredOrderId") } answers { expectedOrder }
 
             context("주문이 이미 취소 상태이면") {
+                val expectedOrder = Order("registeredConsumerId")
+                every { mockOrderPersistencePort.findOrderById("registeredOrderId") } answers { expectedOrder }
                 expectedOrder.cancel()
                 it("주문 취소에 실패하고 AlreadyCanceledFoundException 발생") {
                     shouldThrow<AlreadyCanceledFoundException> {
                         cancelOrderService.command(registeredOrderIdCommand)
+                    }
+                }
+            }
+
+            context("주문이 취소 상태가 아니며") {
+                val expectedOrder = Order("registeredConsumerId")
+                every { mockOrderPersistencePort.findOrderById("registeredOrderId") } answers { expectedOrder }
+
+                context("해당 주문의 배송 원본 데이터의 상태가 대기중(AWAITING)이 아니면") {
+                    val expectedDelivery = DeliveryResponseDto(
+                        "id",
+                        "registeredOrderId",
+                        DeliveryResponseDto.DeliveryStatus.INPROGRESS,
+                        null
+                    )
+                    every { mockDeliveryServiceRestPort.getDeliveryByOrderId("registeredOrderId") } answers { expectedDelivery }
+                    it("주문 취소에 실패하고 UncancellableException 발생") {
+                        shouldThrow<UncancellableException> {
+                            cancelOrderService.command(registeredOrderIdCommand)
+                        }
                     }
                 }
             }
