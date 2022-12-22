@@ -14,6 +14,7 @@ import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
 import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.application.service.exception.OutOfStockException
 import com.qpang.orderservice.application.service.exception.ProductNotFoundException
+import com.qpang.orderservice.application.service.exception.UserNotFoundException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.Payment
 import io.kotest.assertions.assertSoftly
@@ -128,6 +129,18 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
                                     resultInfo.paymentInfo.type shouldBe allRegisteredCommand.paymentCommand.type
                                     resultInfo.paymentInfo.company shouldBe allRegisteredCommand.paymentCommand.company
                                     resultInfo.paymentInfo.number shouldBe allRegisteredCommand.paymentCommand.number
+                                }
+                            }
+                        }
+
+                        context("등록되지 않은 consumerId를 가진 커맨드가 주어지면") {
+                            every { mockUserServiceRestPort.getUser("registeredConsumerId") }.throws(
+                                UserNotFoundException("registeredConsumerId")
+                            )
+
+                            it("주문에 실패하고 UserNotFoundException 발생") {
+                                shouldThrow<UserNotFoundException> {
+                                    registerOrderService.command(allRegisteredCommand)
                                 }
                             }
                         }
