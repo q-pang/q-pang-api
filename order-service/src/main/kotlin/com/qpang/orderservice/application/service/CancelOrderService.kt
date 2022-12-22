@@ -6,7 +6,9 @@ import com.qpang.orderservice.application.port.out.event.dto.CancelOrderEvent
 import com.qpang.orderservice.application.port.out.external.PaymentPort
 import com.qpang.orderservice.application.port.out.persistence.OrderPersistencePort
 import com.qpang.orderservice.application.port.out.rest.DeliveryServiceRestPort
+import com.qpang.orderservice.application.port.out.rest.dto.DeliveryResponseDto
 import com.qpang.orderservice.application.service.exception.OrderNotFoundException
+import com.qpang.orderservice.application.service.exception.UncancellableException
 import com.qpang.orderservice.domain.Order
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -23,6 +25,9 @@ class CancelOrderService(
         val savedOrder = orderPersistencePort.findOrderById(command.orderId)
         savedOrder ?: throw OrderNotFoundException(command.orderId)
         savedOrder.cancel()
+
+        val savedDelivery = deliveryServiceRestPort.getDeliveryByOrderId(command.orderId)
+        if (savedDelivery.status != DeliveryResponseDto.DeliveryStatus.AWAITING) throw UncancellableException(savedDelivery.id)
 
         paymentPort.cancelPayment(savedOrder.payment?.externalPaymentId!!)
 

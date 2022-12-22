@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component
 class DeliveryServiceRestAdapter(
     private val deliveryServiceClient: DeliveryServiceClient
 ) : DeliveryServiceRestPort {
-    override fun getDelivery(deliveryId: String): DeliveryResponseDto = deliveryServiceClient.getDelivery(deliveryId)
+    override fun getDeliveryByOrderId(orderId: String): DeliveryResponseDto = deliveryServiceClient.getDeliveryByOrderId(orderId)
 }

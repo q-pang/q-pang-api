@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable
 
 @FeignClient(name = "delivery-service")
 interface DeliveryServiceClient {
-    @GetMapping("/delivery/{id}")
-    fun getUser(@PathVariable id: String): DeliveryResponseDto
+    @GetMapping("/delivery/by-orderId/{orderId}")
+    fun getDeliveryByOrderId(@PathVariable orderId: String): DeliveryResponseDto
 }
