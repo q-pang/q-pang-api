@@ -12,6 +12,7 @@ import com.qpang.orderservice.application.port.out.rest.dto.ProductCategoryRespo
 import com.qpang.orderservice.application.port.out.rest.dto.ProductResponseDto
 import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
 import com.qpang.orderservice.application.service.exception.IncorrectPriceException
+import com.qpang.orderservice.application.service.exception.OutOfStockException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.Payment
 import io.kotest.assertions.assertSoftly
@@ -56,9 +57,29 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
                                 )
                             )
                         every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
-                        
+
                         it("주문에 실패하고 IncorrectPriceException 발생") {
                             shouldThrow<IncorrectPriceException> {
+                                registerOrderService.command(allRegisteredCommand)
+                            }
+                        }
+                    }
+
+                    context("상품 원본 데이터의 재고보다 주문 수량이 많으면") {
+                        val expectedProductList =
+                            listOf(
+                                ProductResponseDto(
+                                    "registeredProductId",
+                                    "name",
+                                    0,
+                                    16000,
+                                    ProductCategoryResponseDto("category")
+                                )
+                            )
+                        every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
+
+                        it("주문에 실패하고 OutOfStockException 발생") {
+                            shouldThrow<OutOfStockException> {
                                 registerOrderService.command(allRegisteredCommand)
                             }
                         }
