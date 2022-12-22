@@ -1,5 +1,6 @@
 package com.qpang.orderservice.application.service
 
+import com.qpang.orderservice.adapter.out.external.exception.FailedCancelPaymentException
 import com.qpang.orderservice.application.port.`in`.CancelOrderUseCase
 import com.qpang.orderservice.application.port.out.event.EventProducePort
 import com.qpang.orderservice.application.port.out.external.PaymentPort
@@ -9,6 +10,7 @@ import com.qpang.orderservice.application.port.out.rest.dto.DeliveryResponseDto
 import com.qpang.orderservice.application.service.exception.OrderNotFoundException
 import com.qpang.orderservice.application.service.exception.UncancellableException
 import com.qpang.orderservice.domain.Order
+import com.qpang.orderservice.domain.Payment
 import com.qpang.orderservice.domain.exception.AlreadyCanceledFoundException
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
@@ -39,6 +41,15 @@ class CancelOrderServiceDescribeSpec : DescribeSpec({
 
             context("주문이 취소 상태가 아니며") {
                 val expectedOrder = Order("registeredConsumerId")
+                val expectedPayment = Payment(
+                    Payment.PaymentMethodType.CREDITCARD,
+                    Payment.CardCompany.SAMSUNG,
+                    "1234567890",
+                    "username",
+                    expectedOrder
+                )
+                expectedPayment.addExternalPaymentId("123128471982")
+                expectedOrder.addPayment(expectedPayment)
                 every { mockOrderPersistencePort.findOrderById("registeredOrderId") } answers { expectedOrder }
 
                 context("해당 주문의 배송 원본 데이터의 상태가 대기중(AWAITING)이 아니면") {
@@ -52,6 +63,25 @@ class CancelOrderServiceDescribeSpec : DescribeSpec({
                     it("주문 취소에 실패하고 UncancellableException 발생") {
                         shouldThrow<UncancellableException> {
                             cancelOrderService.command(registeredOrderIdCommand)
+                        }
+                    }
+                }
+
+                context("해당 주문의 배송 원본 데이터의 상태가 대기중(AWAITING)이고") {
+                    val expectedDelivery = DeliveryResponseDto(
+                        "id",
+                        "registeredOrderId",
+                        DeliveryResponseDto.DeliveryStatus.AWAITING,
+                        null
+                    )
+                    every { mockDeliveryServiceRestPort.getDeliveryByOrderId("registeredOrderId") } answers { expectedDelivery }
+
+                    context("외부 결제 취소에 실패하면") {
+                        every { mockPaymentPort.cancelPayment(any()) } answers { false }
+                        it("주문 취소에 실패하고 FailedCancelPaymentException 발생") {
+                            shouldThrow<FailedCancelPaymentException> {
+                                cancelOrderService.command(registeredOrderIdCommand)
+                            }
                         }
                     }
                 }
