@@ -84,6 +84,18 @@ class CancelOrderServiceDescribeSpec : DescribeSpec({
                             }
                         }
                     }
+
+                    context("외부 결제 취소에 성공하며") {
+                        every { mockPaymentPort.cancelPayment(any()) } answers { true }
+
+                        context("주문 취소 이벤트 발행에 성공하면") {
+                            every { mockEventProducePort.cancelOrder(any()) } answers {}
+
+                            it("주문 취소에 성공") {
+                                cancelOrderService.command(registeredOrderIdCommand)
+                            }
+                        }
+                    }
                 }
             }
         }
