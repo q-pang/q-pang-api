@@ -11,9 +11,11 @@ import com.qpang.orderservice.application.port.out.rest.UserServiceRestPort
 import com.qpang.orderservice.application.port.out.rest.dto.ProductCategoryResponseDto
 import com.qpang.orderservice.application.port.out.rest.dto.ProductResponseDto
 import com.qpang.orderservice.application.port.out.rest.dto.UserResponseDto
+import com.qpang.orderservice.application.service.exception.IncorrectPriceException
 import com.qpang.orderservice.domain.Order
 import com.qpang.orderservice.domain.Payment
 import io.kotest.assertions.assertSoftly
+import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -40,38 +42,61 @@ class RegisterOrderServiceDescribeSpec : DescribeSpec({
             context("주문 이벤트 발행에 성공하며") {
                 every { mockEventProducePort.order(any()) } answers {}
 
-                context("등록된 productId를 가지고") {
-                    val expectedProductList =
-                        listOf(
-                            ProductResponseDto(
-                                "registeredProductId",
-                                "name",
-                                10,
-                                16000,
-                                ProductCategoryResponseDto("category")
+                context("등록된 productIdList가") {
+
+                    context("상품 원본 데이터와 가격이 일치하지 않으면") {
+                        val expectedProductList =
+                            listOf(
+                                ProductResponseDto(
+                                    "registeredProductId",
+                                    "name",
+                                    10,
+                                    15000,
+                                    ProductCategoryResponseDto("category")
+                                )
                             )
-                        )
-                    every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
-
-                    context("등록된 consumerId를 가진 커맨드가 주어지면") {
-                        every { mockUserServiceRestPort.getUser("registeredConsumerId") } answers {
-                            UserResponseDto("UserResponseDto", "username", "name")
+                        every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
+                        
+                        it("주문에 실패하고 IncorrectPriceException 발생") {
+                            shouldThrow<IncorrectPriceException> {
+                                registerOrderService.command(allRegisteredCommand)
+                            }
                         }
-                        every { mockOrderPersistencePort.saveOrder(any()) } answers { Order(allRegisteredCommand.consumerId) }
+                    }
 
-                        it("주문에 성공하고 command, info 값이 일치함") {
-                            val resultInfo = registerOrderService.command(allRegisteredCommand)
+                    context("상품 리스트 검증에 통과하고") {
+                        val expectedProductList =
+                            listOf(
+                                ProductResponseDto(
+                                    "registeredProductId",
+                                    "name",
+                                    10,
+                                    16000,
+                                    ProductCategoryResponseDto("category")
+                                )
+                            )
+                        every { mockProductServiceRestPort.getProductListIds(allRegisteredCommand.orderItemCommands.map { it.productId }) } answers { expectedProductList }
 
-                            assertSoftly {
-                                resultInfo.consumerId shouldBe allRegisteredCommand.consumerId
-                                resultInfo.orderItemInfos[0].name shouldBe allRegisteredCommand.orderItemCommands[0].name
-                                resultInfo.orderItemInfos[0].price shouldBe allRegisteredCommand.orderItemCommands[0].price
-                                resultInfo.orderItemInfos[0].count shouldBe allRegisteredCommand.orderItemCommands[0].count
-                                resultInfo.orderItemInfos[0].productId shouldBe allRegisteredCommand.orderItemCommands[0].productId
-                                resultInfo.paymentInfo.username shouldBe allRegisteredCommand.paymentCommand.username
-                                resultInfo.paymentInfo.type shouldBe allRegisteredCommand.paymentCommand.type
-                                resultInfo.paymentInfo.company shouldBe allRegisteredCommand.paymentCommand.company
-                                resultInfo.paymentInfo.number shouldBe allRegisteredCommand.paymentCommand.number
+                        context("등록된 consumerId를 가진 커맨드가 주어지면") {
+                            every { mockUserServiceRestPort.getUser("registeredConsumerId") } answers {
+                                UserResponseDto("UserResponseDto", "username", "name")
+                            }
+                            every { mockOrderPersistencePort.saveOrder(any()) } answers { Order(allRegisteredCommand.consumerId) }
+
+                            it("주문에 성공하고 command, info 값이 일치함") {
+                                val resultInfo = registerOrderService.command(allRegisteredCommand)
+
+                                assertSoftly {
+                                    resultInfo.consumerId shouldBe allRegisteredCommand.consumerId
+                                    resultInfo.orderItemInfos[0].name shouldBe allRegisteredCommand.orderItemCommands[0].name
+                                    resultInfo.orderItemInfos[0].price shouldBe allRegisteredCommand.orderItemCommands[0].price
+                                    resultInfo.orderItemInfos[0].count shouldBe allRegisteredCommand.orderItemCommands[0].count
+                                    resultInfo.orderItemInfos[0].productId shouldBe allRegisteredCommand.orderItemCommands[0].productId
+                                    resultInfo.paymentInfo.username shouldBe allRegisteredCommand.paymentCommand.username
+                                    resultInfo.paymentInfo.type shouldBe allRegisteredCommand.paymentCommand.type
+                                    resultInfo.paymentInfo.company shouldBe allRegisteredCommand.paymentCommand.company
+                                    resultInfo.paymentInfo.number shouldBe allRegisteredCommand.paymentCommand.number
+                                }
                             }
                         }
                     }
