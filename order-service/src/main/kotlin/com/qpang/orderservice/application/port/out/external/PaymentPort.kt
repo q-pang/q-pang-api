@@ -4,7 +4,7 @@ import com.qpang.orderservice.domain.Payment
 
 interface PaymentPort {
     fun payment(paymentRequestDto: ExternalPaymentRequestDto): String
-    fun cancelPayment(externalPaymentId: String)
+    fun cancelPayment(externalPaymentId: String): Boolean
 
     data class ExternalPaymentRequestDto(
         val name: String,

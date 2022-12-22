@@ -22,7 +22,5 @@ class PaymentAdapter(
         )
     }
 
-    override fun cancelPayment(externalPaymentId: String) {
-        if (!paymentModule.cancelPayment(externalPaymentId)) throw FailedCancelPaymentException(externalPaymentId)
-    }
+    override fun cancelPayment(externalPaymentId: String): Boolean = paymentModule.cancelPayment(externalPaymentId)
 }

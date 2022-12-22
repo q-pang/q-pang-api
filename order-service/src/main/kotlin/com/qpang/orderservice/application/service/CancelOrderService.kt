@@ -1,5 +1,6 @@
 package com.qpang.orderservice.application.service
 
+import com.qpang.orderservice.adapter.out.external.exception.FailedCancelPaymentException
 import com.qpang.orderservice.application.port.`in`.CancelOrderUseCase
 import com.qpang.orderservice.application.port.out.event.EventProducePort
 import com.qpang.orderservice.application.port.out.event.dto.CancelOrderEvent
@@ -27,9 +28,11 @@ class CancelOrderService(
         savedOrder.cancel()
 
         val savedDelivery = deliveryServiceRestPort.getDeliveryByOrderId(command.orderId)
-        if (savedDelivery.status != DeliveryResponseDto.DeliveryStatus.AWAITING) throw UncancellableException(savedDelivery.id)
+        if (savedDelivery.status != DeliveryResponseDto.DeliveryStatus.AWAITING)
+            throw UncancellableException(savedDelivery.id)
 
-        paymentPort.cancelPayment(savedOrder.payment?.externalPaymentId!!)
+        val isSuccessCancel = paymentPort.cancelPayment(savedOrder.payment?.externalPaymentId!!)
+        if (!isSuccessCancel) throw FailedCancelPaymentException(savedOrder.payment?.externalPaymentId!!)
 
         val newCancelOrderEvent = createCancelOrderEvent(savedOrder)
         eventProducePort.cancelOrder(newCancelOrderEvent)
