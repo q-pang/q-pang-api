@@ -11,4 +11,5 @@ class DeliveryPersistenceAdapter(
 ) : DeliveryPersistencePort {
     override fun save(delivery: Delivery): Delivery = deliveryRepository.save(delivery)
     override fun findById(id: String): Delivery? = deliveryRepository.findDeliveryById(id)
+    override fun findByOrderId(orderId: String): Delivery? = deliveryRepository.findDeliveryByOrderId(orderId)
 }

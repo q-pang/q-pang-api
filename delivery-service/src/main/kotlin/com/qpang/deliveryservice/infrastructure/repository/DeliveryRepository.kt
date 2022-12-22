@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface DeliveryRepository : JpaRepository<Delivery, String> {
     fun findDeliveryById(id: String): Delivery?
+    fun findDeliveryByOrderId(orderId: String): Delivery?
 }
