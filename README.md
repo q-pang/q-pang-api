@@ -12,7 +12,7 @@
 - 각 마이크로서비스로의 접근은 Gateway Server를 통해 이루어지며, 사용자 인증은 Gateway Server에서 수행한다.
 - Gateway Server에서 request header에 담긴 jwt를 사용하여 사용자를 검증하고, payload에 담긴 username을 꺼내어 request header에 담아 마이크로서비스를 호출한다.
 - Database Schema, Eureka Service Url, JWT Secret 등의 환경 정보는 Config Server에서 중앙 집중하여 관리한다.
-- 마이크로서비스간 호출이 필요한 경우, 컨텍스트간에 항상 일관된 데이터가 필요하면 openfeign을 사용하여 동기 방식으로 호출하고, 궁극적 일관성으로 처리 가능한 경우 Kafka를 사용하여 이벤트 기반의 비동기 방식으로 호출한다.
+- 마이크로서비스간 호출이 필요한 경우, 컨텍스트간에 항상 일관된 데이터가 필요하면 openfeign을 사용하여 동기 방식으로 호출하고, 최종 일관성으로 처리 가능한 경우 Kafka를 사용하여 이벤트 기반의 비동기 방식으로 호출한다.
 
 ## 실행하기
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) 설치
