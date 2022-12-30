@@ -1,5 +1,6 @@
 # q-pang api
-> 이커머스를 설계 및 구축하며 대규모 시스템에 필요한 개념과 기술을 적용해보기 위한 프로젝트입니다.
+> 이커머스를 설계 및 구축하며 대규모 시스템에 필요한 개념과 기술을 적용해보기 위한 프로젝트입니다.  
+> DDD, Hexagonal Architecture 개념과 Spring Cloud, Apache Kafka 기술을 적용하여 MSA 서버를 구성하였습니다.
 
 ## 프로젝트 진행 과정
 - [#1 개요](https://velog.io/@ddkds66/%EC%BF%A0%ED%8C%A1-%ED%81%B4%EB%A1%A0-%EC%BD%94%EB%94%A9-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%EA%B0%9C%EC%9A%94)
