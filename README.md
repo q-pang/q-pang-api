@@ -1,6 +1,7 @@
 # q-pang api
 > 이커머스를 설계 및 구축하며 대규모 시스템에 필요한 개념과 기술을 적용해보기 위한 프로젝트입니다.  
-> DDD, Hexagonal Architecture 개념과 Spring Cloud, Apache Kafka 기술을 적용하여 MSA 서버를 구성하였습니다.
+> DDD, Hexagonal Architecture 개념과 Spring Cloud, Apache Kafka 기술을 적용하여 MSA 서버를 구성하였습니다.  
+> [Java 마이그레이션 및 개선 버전](https://github.com/dongkyunkimdev/spring-playground)
 
 ## 아키텍처
 ![q-pang 아키텍처](https://user-images.githubusercontent.com/49021557/209222999-cc6ac453-1a96-4be1-940c-77b8ea4a83e2.png)
