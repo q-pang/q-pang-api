@@ -29,9 +29,13 @@
 - Spring Cloud, Docker를 사용하여 Cloud Native Application 구성
 
 ## 미구현 개선 사항
-- DB 다중화를 통한 SPOF 방지 및 부하 분산
-- 빈번하게 조회되고 실시간성 조건이 존재하지 않는 데이터를 캐싱하여 DB 부하 분산
-- SAGA 패턴을 적용하여 최종 일관성이 불일치하는 경우 보상 트랜잭션 발행
+- DB 다중화를 통한 SPOF 방지 및 부하 분산(WIP)
+- 빈번하게 조회되고 실시간성 조건이 존재하지 않는 데이터를 대상으로 캐싱 전략을 도입하여 DB 부하 분산(WIP)
+- 최종 일관성이 보장되도록 분산 트랜잭션 관리 전략 도입(WIP)
+- 마이크로서비스간 트랜잭션 추적을 고려한 로그 시스템 구축(WIP)
+- 마지막 로그인 시간을 기준으로 유저를 비활성화 시키기(WIP)
+- 가상의 트래픽을 상정하여 Thread Pool, DB Connection Pool 최적화(WIP)
+- [Java 마이그레이션 버전인 spring-playground](https://github.com/dongkyunkimdev/spring-playground) 에서 구현 예정
 
 ## 실행하기
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) 설치
